@@ -2,51 +2,30 @@ from flask import Flask, render_template, redirect, request
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.get('/')
 def index():
     return render_template('index.html')
 
 
-@app.route('/signup')
-def signup():
-    return render_template('signup_page.html')
+@app.get('/profile')
+def user_profile():
+    return render_template('profile.html')
 
 
-@app.route('/login')
-def login():
-    return render_template('login_page.html')
-
-
-@app.route('/profile/<username>')
-def user_profile(username):
-    return render_template('user_profile.html', username=username)
-
-
-@app.route('/post/new')
+@app.get('/posts')
 def new_post():
-    return render_template('post_creation.html')
+    return render_template('posts.html')
 
 
-@app.route('/post/<post_id>')
+@app.get('/post/<post_id>')
 def post_detail(post_id):
     return render_template('post_detail.html', post_id=post_id)
 
 
-@app.route('/post/<post_id>/edit')
-def edit_post(post_id):
-    return render_template('edit_post.html', post_id=post_id)
-
-
-@app.route('/category/<category_name>')
-def posts_by_category(category_name):
-    
-    return render_template('posts_by_category.html', category_name=category_name)
-
-
-@app.route('/search')
+@app.get('/search')
 def search():
     query = request.args.get('q')
-    return render_template('search_results.html', query=query)
+    return render_template('search.html', query=query)
 
 @app.route('/contact')
 def contact():
