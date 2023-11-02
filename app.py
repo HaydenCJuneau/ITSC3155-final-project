@@ -31,6 +31,6 @@ def search():
 def contact():
     return render_template('contact.html')
 
-@app.route('/about')
+@app.route('/home/About')
 def about():
     return render_template('about.html')
