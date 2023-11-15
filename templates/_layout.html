@@ -27,10 +27,44 @@
             <a class="nav-link{% if search_active %} active{% endif %}" href="/movies/search">Search</a>
           </li>
         </ul>
+        
+        <ul class="navbar-nav ms-auto">
+          {% if session.user_id %}
+            <li class="nav-item">
+              <a class="nav-link" href="/users/profile">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/users/logout">Logout</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="/users/login">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/users/signup">Sign Up</a>
+            </li>
+          {% endif %}
+        </ul>
+
+
+
+
       </div>
     </div>
   </nav>
   <div class="container pt-4">
+
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
     {% block body %}{% endblock %}
   </div>
 </body>
