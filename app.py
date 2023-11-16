@@ -1,6 +1,5 @@
 import os
-
-from flask import Flask, render_template, redirect, request, redirect, session, flash, get_flashed_messages
+from flask import Flask, render_template, redirect, request, session, flash, get_flashed_messages, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from src.models import db, User
@@ -125,3 +124,31 @@ def delete_user():
     return redirect('/')
 
 
+
+
+@app.route('/home/Canvas')
+def canvas():
+    return render_template('canvas.html')
+
+
+##TEST FOR JASONIFY##
+UPLOAD_FOLDER = 'uploads'
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part'})
+
+    file = request.files['file']
+
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'})
+
+    filename = os.path.join(app.config['UPLOAD_FOLDER'], 'uploaded.png')
+    file.save(filename)
+
+    return jsonify({'success': True, 'message': 'File uploaded successfully'})
