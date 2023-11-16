@@ -14,7 +14,7 @@ def user_profile():
 
 @app.get('/posts')
 def new_post():
-    return render_template('posts.html')
+    return render_template('new_post.html')
 
 
 @app.get('/post/<post_id>')
