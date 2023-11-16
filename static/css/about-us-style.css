@@ -1,0 +1,18 @@
+:root {
+    --border-color: #ddd;
+}
+
+.team-section {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px;
+}
+
+.team-member {
+    text-align: center;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+}

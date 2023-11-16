@@ -1,8 +1,41 @@
-{% extends "index.html" %}
+{% extends "_layout.html" %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/about-us-style.css') }}">
+{% endblock %}
 
 {% block title %}About Us{% endblock %}
 
 {% block body %}
-  <h1>About Us</h1>
-  <p>This is the About Us page content.</p>
+  <h1>About Us!</h1>
+  <p>Welcome to Sasank's Fruity Website! Ever see an orange and thought it looked too orange? Or saw a blueberry thought that it didn't quite earn the name BLUEberry? Ever wish it was possible to create a completely new fruit? Well now it is possible! It's all thanks to our founder Sasank Pagadala, inventor of a new gene splicing tech, that allows you to create any fruit you can imagine! Now you can create apples with your favorite sports team's logo! Or you can create a new rasberry fruit plate. A useful plate that is also an edible raspberry tasting fruit, so there are no dishes after supper, just go ahead and eat your entire plate! Literally!</p>
+
+  <p>All you have to do is draw a rough sketch of what you want and our artificial intelligence will go to work! Create any fruit you want, save it, and then post it to our website! Other people will then be able to see your new creation. You can see others comments on your post or checkout someone else's post and make a comment of your own!</p>
+
+  <p>We the creators of Sasank's Fruity Website thank you for using our site to let your creativity blossom! Happy creating!</p>
+
+  <h1>Meet Our Team!</h1>
+
+  <section class="team-section">
+    <div class="team-member">
+        <h3>Member 1</h3>
+        <p>...description...</p>
+    </div>
+    <div class="team-member">
+        <h3>Member 2</h3>
+        <p>...description...</p>
+    </div>
+    <div class="team-member">
+        <h3>Member 3</h3>
+        <p>...description...</p>
+    </div>
+    <div class="team-member">
+        <h3>Member 4</h3>
+        <p>...description...</p>
+    </div>
+    <div class="team-member">
+        <h3>Member 5</h3>
+        <p>...description...</p>
+    </div>
+  </section>
 {% endblock %}
