@@ -1,4 +1,6 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, jsonify
+import os
+
 
 app = Flask(__name__)
 
@@ -34,3 +36,30 @@ def contact():
 @app.route('/home/About')
 def about():
     return render_template('about.html')
+
+@app.route('/home/Canvas')
+def canvas():
+    return render_template('canvas.html')
+
+
+##TEST FOR JASONIFY##
+UPLOAD_FOLDER = 'uploads'
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    if 'file' not in request.files:
+        return jsonify({'error': 'No file part'})
+
+    file = request.files['file']
+
+    if file.filename == '':
+        return jsonify({'error': 'No selected file'})
+
+    filename = os.path.join(app.config['UPLOAD_FOLDER'], 'uploaded.png')
+    file.save(filename)
+
+    return jsonify({'success': True, 'message': 'File uploaded successfully'})
