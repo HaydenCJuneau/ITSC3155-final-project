@@ -1,4 +1,8 @@
-{% extends "index.html" %}
+{% extends "_layout.html" %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/about-us-style.css') }}">
+{% endblock %}
 
 {% block title %}About Us{% endblock %}
 
