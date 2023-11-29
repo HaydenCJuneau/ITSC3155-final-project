@@ -156,7 +156,7 @@
   <!-- navbar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#" id="menu">Sasank's Fruity Website</a>
+      <a class="navbar-brand" href="/" id="menu">Sasank's Fruity Website</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -168,24 +168,45 @@
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
         <ul class="nav navbar-nav ml-auto">
+
+          {% if session.user_id %}
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+            <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
-              <b>Login</b>
+              <b>{{ session.username }}</b>
             </a>
+            
             <ul id="login-dp" class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+              
+              <li class="nav-item">
+                <a class="nav-link" href="/users/profile">Profile</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="/users/logout">Logout</a>
+              </li>
+            {% else %}
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                <b>Login</b>
+              </a>
+              
+              <ul id="login-dp" class="dropdown-menu" aria-labelledby="navbarDropdown">
+
               <li>
                 <div class="row">
                   <div class="col-md-12">
-                    <form class="form" role="form" method="post" action="login" accept-charset="UTF-8" id="login-nav">
+                    <form class="form" role="form" method="post" action="/users/login" accept-charset="UTF-8" id="login-nav">
                       <div class="form-group">
                         <label class="sr-only" for="exampleInputEmail2"></label>
-                        <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Email address"
+                        <input type="email" class="form-control" id="exampleInputEmail2" name="email" placeholder="Email address"
                           required>
                       </div>
                       <div class="form-group">
                         <label class="sr-only" for="exampleInputPassword2"></label>
-                        <input type="password" class="form-control" id="exampleInputPassword2" placeholder="Password"
+                        <input type="password" class="form-control" id="exampleInputPassword2" name="password" placeholder="Password"
                           required>
                         <div class="help-block text-right"><a href="">Forgot password ?</a></div>
                       </div>
@@ -200,10 +221,12 @@
                     </form>
                   </div>
                   <div class="bottom text-center">
-                    New here ? <a href="#"><b>Sign up</b></a>
+                    New here ? <a href="/users/signup"><b>Sign up</b></a>
                   </div>
                 </div>
               </li>
+              {% endif %}
+
             </ul>
           </li>
         </ul>
@@ -219,34 +242,34 @@
           <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none"></a>
           <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start text-dark">
             <li class="nav-item">
-              <a href="#" class="nav-link align-middle px-0">
+              <a href="/" class="nav-link align-middle px-0">
                 <i class="fs-4"></i> <span class="ms-1 d-none d-sm-inline">Home</span>
               </a>
-              <a href="#" class="nav-link align-middle px-0">
-                <i class="fs-4"></i> <span href="#" class="ms-1 d-none d-sm-inline">Popular</span>
+              <a href="/" class="nav-link align-middle px-0">
+                <i class="fs-4"></i> <span href="/" class="ms-1 d-none d-sm-inline">Popular</span>
               </a>
             </li>
             <li class="nav-item">
               <hr>
-              <a href="#" class="nav-link align-middle px-0">
+              <a href="/" class="nav-link align-middle px-0">
                 <i class="fs-4"></i> <span class="ms-1 d-none d-sm-inline">Drupe</span>
               </a>
-              <a href="#" class="nav-link align-middle px-0">
+              <a href="/" class="nav-link align-middle px-0">
                 <i class="fs-4"></i> <span href="#" class="ms-1 d-none d-sm-inline">Berry</span>
               </a>
-              <a href="#" class="nav-link align-middle px-0">
+              <a href="/" class="nav-link align-middle px-0">
                 <i class="fs-4"></i> <span href="#" class="ms-1 d-none d-sm-inline">Legumes</span>
               </a>
-              <a href="#" class="nav-link align-middle px-0">
+              <a href="/" class="nav-link align-middle px-0">
                 <i class="fs-4"></i> <span href="#" class="ms-1 d-none d-sm-inline">Pome</span>
               </a>
-              <a href="#" class="nav-link align-middle px-0">
+              <a href="/" class="nav-link align-middle px-0">
                 <i class="fs-4"></i> <span href="#" class="ms-1 d-none d-sm-inline">Nuts</span>
               </a>
               <hr>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link align-middle px-0 ">
+              <a href="/" class="nav-link align-middle px-0 ">
                 <i class="fs-4"></i> <span class="ms-1 d-none d-sm-inline">About</span></a>
             </li>
           </ul>
