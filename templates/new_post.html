@@ -4,7 +4,6 @@
 
 {% block body %}
 
-
 <style>
     #caption, #title{
         display: block;
@@ -18,6 +17,70 @@
 </style>
 
 <h1>NEW POST</h1>
+
+<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        canvas { border: 5px solid black}
+    </style>
+    <script>
+         document.addEventListener("DOMContentLoaded", function () {
+            const gCanvas = document.querySelector('#c');
+            const gCtx = gCanvas.getContext('2d');
+
+            function onMouseDown(e) {
+                e.preventDefault();
+                window.addEventListener('mousemove', onMouseMove);
+                window.addEventListener('mouseup', onMouseUp);
+            }
+
+            function onMouseMove(e){
+                e.preventDefault();
+                gCtx.fillRect(e.offsetX - 4, e.offsetY - 4, 8, 8);   
+            }
+
+            function onMouseUp(e){
+                e.preventDefault();
+                window.removeEventListener('mousemove', onMouseMove);
+                window.removeEventListener('mouseup', onMouseUp);
+            }
+
+            function onSave() {
+                gCanvas.toBlob((blob) => {
+                    const formData = new FormData();
+                    formData.append('file', blob, 'export.png')
+
+                    fetch('/upload', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data)
+
+                        if (data.success) {
+                            console.log('File upload successfully!');
+                        } 
+                        else {
+                            console.error('Error:', data.error)
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error', error);
+                    })
+                })
+            }
+            gCanvas.addEventListener("mousedown", onMouseDown);
+            document.querySelector('#save').addEventListener('click', onSave);
+         });
+    </script>
+</head>
+
+<body>
+    <canvas id = "c" width = "500" height = "500"></canvas>
+    <br>
+    <button id = "save">Save</button>
+</body>
 
 <div class="new-post-container">
     <textarea id = "title" name = "title" rows = "2" cols = "133">Title</textarea>
