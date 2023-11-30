@@ -23,7 +23,7 @@ db.init_app(app)
 def index():
     return render_template('index.html')
 
-@app.get('/posts')
+@app.get('/new_post')
 def new_post():
     return render_template('new_post.html')
 
@@ -122,8 +122,6 @@ def delete_user():
         flash('User could not be found')
     
     return redirect('/')
-
-
 
 
 @app.route('/home/Canvas')
