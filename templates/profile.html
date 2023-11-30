@@ -6,6 +6,15 @@ Profile Page
 
 {% block body %}
 <div class="container">
+  <div class="container mt-4">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
   <h1>Profile Page</h1>
   <div class="profile-info">
     <p><strong>Username:</strong> {{ user.username }}</p>

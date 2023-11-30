@@ -6,6 +6,15 @@ Edit Profile
 
 {% block body %}
 <div class="container">
+  <div class="container mt-4">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-info">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
   <h2>Edit Profile</h2>
   <form method="post" action="/users/profile/edit">
     <div class="mb-3">

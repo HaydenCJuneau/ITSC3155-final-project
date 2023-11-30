@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, redirect, request, session, flash, get_flashed_messages, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
+from src.backend import create_user, check_user_credentials, update_user_profile, delete_user_account, get_user_by_id
 
 from src.models import db, User
 
@@ -47,80 +48,108 @@ def about():
     return render_template('about.html')
 
 
+def is_logged_in():
+    return 'user_id' in session
+
 @app.get('/users/signup')
 def user_signup():
+    if is_logged_in():
+        flash('You are already logged in.')
+        return redirect('/')
     return render_template('signup.html')
 
 @app.post('/users/signup')
-def create_user():
+def signup_user():
     username = request.form['username']
     email = request.form['email']
     password = request.form['password']
     hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
-    new_user = User(username=username, email=email, password=hashed_password)
-    db.session.add(new_user)
-    db.session.commit()
-    return redirect('/users/login')
+
+    result = create_user(username, email, hashed_password)
+    if result == 'Success':
+        flash('Account successfully created')
+        return redirect('/')
+    else:
+        flash(result) 
+        return redirect('/users/signup')
 
 @app.get('/users/login')
 def login_form():
+    if is_logged_in():
+        flash('You are already logged in.')
+        return redirect('/')
     return render_template('login.html')
 
 @app.post('/users/login')
 def login_user():
-    username = request.form['username']
+    email = request.form['email']
     password = request.form['password']
-    user = User.query.filter_by(username=username).first()
-    if user and check_password_hash(user.password, password):
+    user = check_user_credentials(email, password)
+    if user:
         session['user_id'] = user.user_id
-        return redirect('/users/profile')
+        session['username'] = user.username
+        return redirect('/')
     else:
-        return 'Invalid username or password'
+        flash('Invalid email or password')
+        return redirect('/')
 
 @app.get('/users/profile')
 def profile():
-    if 'user_id' not in session:
-        return redirect('/users/login')
+    if not is_logged_in():
+        flash('Please log in to access your profile.')
+        return redirect('/')
     user_id = session['user_id']
-    user = User.query.get(user_id)
+    user = get_user_by_id(user_id)
     return render_template('profile.html', user=user)
 
 @app.get('/users/profile/edit')
 def edit_profile_form():
-    if 'user_id' not in session:
-        return redirect('/users/login')
+    if not is_logged_in():
+        flash('Please log in to edit your profile.')
+        return redirect('/')
     user_id = session['user_id']
-    user = User.query.get(user_id)
+    user = get_user_by_id(user_id)
     return render_template('edit_profile.html', user=user)
 
 @app.post('/users/profile/edit')
 def edit_profile():
     if 'user_id' not in session:
-        return redirect('/users/login')
+        flash('Please log in to edit your profile')
+        return redirect('/')
     user_id = session['user_id']
-    user = User.query.get(user_id)
-    user.username = request.form['username']
-    user.email = request.form['email']
-    db.session.commit()
-    return redirect('/users/profile')
+    username = request.form['username']
+    email = request.form['email']
+
+    result = update_user_profile(user_id, username, email)
+    if result == 'Success':
+        session['username'] = username
+        flash('Profile updated successfully')
+        return redirect('/users/profile')
+    else:
+        flash(result)  
+        return redirect('/users/profile/edit')
 
 @app.get('/users/logout')
 def logout():
+    if not is_logged_in():
+        flash('You are not logged in.')
+        return redirect('/')
     session.pop('user_id', None)
+    session.pop('username', None)
+    flash('You have been successfully logged out.')
     return redirect('/')
 
 @app.post('/users/delete')
 def delete_user():
-    user_id = session.get('user_id')   
-    user = User.query.get(user_id)
-    if user:
-        db.session.delete(user)
-        db.session.commit()
-        session.pop('user_id', None)
-        flash('Your account has been successfully deleted')
+    if not is_logged_in():
+        flash('Please log in to delete your account.')
+        return redirect('/')
+    user_id = session['user_id']
+    if delete_user_account(user_id):
+        session.clear()
+        flash('Your account has been successfully deleted.')
     else:
         flash('User could not be found')
-    
     return redirect('/')
 
 
