@@ -1,4 +1,4 @@
-CREATE DATABASE demos;
+CREATE DATABASE final_project_database;
 
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
