@@ -11,9 +11,10 @@ app = Flask(__name__)
 
 
 # Import and register blueprints
-from routes import users_bp
+from routes import users_bp, posts_bp
 
 app.register_blueprint(users_bp)
+app.register_blueprint(posts_bp)
 
 # Register secret for session management
 app.secret_key = os.getenv('SECRET')
