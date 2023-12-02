@@ -2,37 +2,50 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
-class User(db.Model):
+class Users(db.Model):
     __tablename__ = 'users'
     
     user_id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column(db.String(256), nullable=False)
+    password = db.Column(db.String(255), nullable=False)
 
-class Post(db.Model):
-    __tablename__ = 'post'
+class Posts(db.Model):
+    __tablename__ = 'posts'
     
     post_id = db.Column(db.Integer, primary_key=True)
-    num_likes = db.Column(db.Integer, nullable=False)
-    timestamp = db.Column(db.DateTime, nullable=False)
-    caption = db.Column(db.String(255), nullable=False)
+    image = db.Column(db.LargeBinary, nullable=False)
+    title = db.Column(db.String(255), nullable=False)
+    timestamp = db.Column(db.TIMESTAMP, nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    status = db.Column(db.String(255), nullabe=False)
 
     author_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), \
                             nullable=False)
-    author = db.relationship('User', backref='posts')
+    author = db.relationship('Users', backref='posts')
 
-class Comment(db.Model):
-    __tablename__ = 'comment'
+class Comments(db.Model):
+    __tablename__ = 'comments'
 
     comment_id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(255), nullable=False)
-    num_likes = db.Column(db.Integer, nullable=False)
 
     post_id = db.Column(db.Integer, db.ForeignKey('post.post_id'), \
                         nullable=False)
-    post = db.relationship('Post', backref='comments')
+    post = db.relationship('Posts', backref='comments')
 
     author_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), \
                         nullable=False)
-    author = db.relationship('User', backref='comments')
+    author = db.relationship('Users', backref='comments')
+
+class Likes(db.Model):
+    __tablename__ = 'likes'
+
+    like_id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), \
+                        nullable=False)
+    user = db.relationship('Users', backref='likes')
+
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.post_id'), \
+                        nullable=False)
+    post = db.relationship('Posts', backref='likes')
