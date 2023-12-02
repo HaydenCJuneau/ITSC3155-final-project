@@ -1,6 +1,7 @@
-# src/main_routes.py
+# src/posts.py
+# This file holds API routes for post functionality and nav
 from . import posts_bp
-from flask import render_template, request, flash, redirect, session
+from flask import render_template
 
 
 @posts_bp.get('/new_post')

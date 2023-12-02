@@ -1,4 +1,5 @@
-# src/main_routes.py
+# src/users.py
+# This file holds API routes for user functionality and nav
 from . import users_bp
 from src.user_utils import *
 from werkzeug.security import generate_password_hash
