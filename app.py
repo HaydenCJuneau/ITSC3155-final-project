@@ -51,9 +51,9 @@ def about():
 
 
 # TODO: This is a test route, delete at some point
-@app.route('/home/Canvas')
-def canvas():
-    return render_template('canvas.html')
+@app.route('/new_post.html')
+def new_post():
+    return render_template('new_post.html')
 
 
 if __name__ == '__main__':
