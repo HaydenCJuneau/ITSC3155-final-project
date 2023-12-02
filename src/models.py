@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 class User(db.Model):
-    __tablename__ = 'user'
+    __tablename__ = 'users'
     
     user_id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
@@ -23,6 +23,8 @@ class Post(db.Model):
     author = db.relationship('User', backref='posts')
 
 class Comment(db.Model):
+    __tablename__ = 'comment'
+
     comment_id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(255), nullable=False)
     num_likes = db.Column(db.Integer, nullable=False)
