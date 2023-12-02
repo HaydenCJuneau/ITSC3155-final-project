@@ -1,11 +1,11 @@
-import requests
-import base64
+import requests, os, base64
 from io import BytesIO
 from PIL import Image
 from random import randint
+from dotenv import load_dotenv
 
-TOKEN = "key-dInP5mSzWiNyBfe4BqDWD5NAz62Wf8PMVd9FCsBiziCzORoBtLHKmjLbEy4DLqZIRFntEZaITvkDUS0bqWiK6tBO4brgY5k"
-
+load_dotenv()
+TOKEN = os.getenv('API_KEY')
 
 def check_balance():
     import requests
@@ -50,7 +50,7 @@ def request_image():
     url = "https://api.getimg.ai/v1/stable-diffusion/controlnet"
     controlImage = "./uploads/input.png"
 
-    invert_ctrl_image(controlImage)
+    # invert_ctrl_image(controlImage)
 
     encoded_string = encode_ctrl_image(controlImage)
 
@@ -59,7 +59,7 @@ def request_image():
     payload = {
         "model": "icbinp-seco",
         "controlnet": "scribble-1.1",
-        "prompt": "(fruit), realistic photo of a futuristic orange with cyborg alien arms and legs and human eyes",
+        "prompt": "(fruit), realistic photo of a pineapple attatched to a flashlight shining light everywhere",
         "negative_prompt": "((nsfw)), bad quality, cartoon",
         "width": 512, 
         "height": 512, 
@@ -102,6 +102,5 @@ def parse_models():
 
 
 if __name__ == "__main__":
-    # request_image()
-    # invert_ctrl_image("./uploads/input.png")
-    check_balance()
+    request_image()
+    
