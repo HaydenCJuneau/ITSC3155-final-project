@@ -16,15 +16,42 @@
     text-align: center;
     }
 
-    canvas { border: 5px solid black}
+    canvas {
+        border: 5px solid black;
+        width: 100%;
+        height: auto;
+        max-width: 512px; 
+    }
 </style>
 {% endblock %}
 
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const gCanvas = document.querySelector('#c');
-        const gCtx = gCanvas.getContext('2d');
+        const canvas = document.querySelector('#c');
+        const ctx = canvas.getContext('2d');
+
+        // Adjust canvas size based on device pixel ratio
+        var devicePixelRatio = window.devicePixelRatio || 1;
+        var backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
+                                ctx.mozBackingStorePixelRatio ||
+                                ctx.msBackingStorePixelRatio ||
+                                ctx.oBackingStorePixelRatio ||
+                                ctx.backingStorePixelRatio || 1;
+        var ratio = devicePixelRatio / backingStoreRatio;
+
+        if (devicePixelRatio !== backingStoreRatio) {
+            var oldWidth = canvas.width;
+            var oldHeight = canvas.height;
+
+            canvas.width = oldWidth * ratio;
+            canvas.height = oldHeight * ratio;
+
+            canvas.style.width = oldWidth + 'px';
+            canvas.style.height = oldHeight + 'px';
+
+            ctx.scale(ratio, ratio);
+        }
 
         function onMouseDown(e) {
             e.preventDefault();
@@ -34,7 +61,7 @@
 
         function onMouseMove(e){
             e.preventDefault();
-            gCtx.fillRect(e.offsetX - 4, e.offsetY - 4, 8, 8);   
+            ctx.fillRect(e.offsetX, e.offsetY, 8, 8);
         }
 
         function onMouseUp(e){
@@ -44,7 +71,7 @@
         }
 
         function onSave() {
-            const imageDataURL = gCanvas.toDataURL();
+            const imageDataURL = canvas.toDataURL();
             const base64Data = imageDataURL.split(',')[1];
 
             const postData = {
@@ -55,8 +82,8 @@
 
             // Make the POST request using the Fetch API
             fetch('/posts/generate', {
-                    method: 'POST',
-                    headers: {
+                method: 'POST',
+                headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(postData)
@@ -75,25 +102,32 @@
             });
         }
 
-        gCanvas.addEventListener("mousedown", onMouseDown);
+        canvas.addEventListener("mousedown", onMouseDown);
         document.querySelector('#save').addEventListener('click', onSave);
     });         
 </script>
 
+<h1>Create the Fruit of Your Dreams</h1>
 
-<body>
-    <canvas id = "c" width = "500" height = "500"></canvas>
-</body>
+<div class="mt-5 d-flex flex-column justify-content-center">
+    <canvas class="mb-3 mx-auto" id="c" width="512" height="512"></canvas>
 
-<div class="new-post-container">
-    <textarea id = "title" name = "title" rows = "2" cols = "133"></textarea>
-    <br>
-    <textarea id = "description" name ="description" rows = "15" cols = "133"></textarea>
-    <div class = "text-center">
-        <br>
-        <button type="button" class="btn btn-success">POST</button>    
-        <a href = "/" class="btn btn-danger">CANCEL</a>
+    <div class="mt-2 form-group">
+        <label for="title">Title</label>
+        <textarea class="form-control" id="title" name="title" rows="2" placeholder="Enter title"></textarea>
     </div>
+
+    <div class="mt-2 form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="5" placeholder="Enter description"></textarea>
+    </div>
+
+    <div class="mt-2 text-center">
+        <button type="button" class="btn btn-success" id="save">POST</button>
+        <a href="/" class="btn btn-danger">CANCEL</a>
+    </div>
+
 </div>
+
 
 {% endblock %}
