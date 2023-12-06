@@ -93,7 +93,7 @@
         }
 
         function onSave() {
-            const imageDataURL = canvas.toDataURL();
+            const imageDataURL = canvas.toDataURL("image/jpeg", 1.0);
             const base64Data = imageDataURL.split(',')[1];
 
             const postData = {

@@ -42,11 +42,11 @@ def parse_models():
     [print(x) for x in filtered]
 
 
-def decode_image(base64_string: str, file_name: str, ext: str ='JPEG'):
+def decode_image(base64_string: str, file_name: str):
     image_data = base64.b64decode(base64_string)
     image_stream = BytesIO(image_data)
     image = Image.open(image_stream)
-    image.save(file_name, ext)
+    image.save(file_name, 'JPEG')
 
 
 def invert_ctrl_image(img_path: str):
