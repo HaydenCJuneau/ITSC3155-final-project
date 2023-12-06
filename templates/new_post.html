@@ -5,82 +5,113 @@
 {% block body %}
 
 <style>
+    canvas {
+    padding: 0;
+    margin: auto;
+    display: block;
+    border: 5px solid black;
+    }
+
     #caption, #title{ 
         display: block;
         margin-left: auto;
         margin-right: auto;
     }
 
+
     h1{
     text-align: center;
     }
+
+
 </style>
 
 <h1>NEW POST</h1>
 
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        canvas { border: 5px solid black}
-    </style>
+    
     <script>
-         document.addEventListener("DOMContentLoaded", function () {
-            const gCanvas = document.querySelector('#c');
-            const gCtx = gCanvas.getContext('2d');
+    document.addEventListener("DOMContentLoaded", function () {
+        const gCanvas = document.querySelector('#c');
+        const gCtx = gCanvas.getContext('2d');
+        let isDrawing = false;
+        let eraseEnable = false; 
 
-            function onMouseDown(e) {
-                e.preventDefault();
-                window.addEventListener('mousemove', onMouseMove);
-                window.addEventListener('mouseup', onMouseUp);
+        const lineThicknessInput = document.getElementById('lineThickness');
+        function startDrawing(e) {
+            e.preventDefault();
+            isDrawing = true;
+            gCtx.beginPath();
+            gCtx.moveTo(e.offsetX, e.offsetY);
+        }
+
+        function draw(e) {
+            e.preventDefault();
+            if (!isDrawing) return;
+            gCtx.lineWidth = lineThicknessInput.value;
+            if (eraseEnable) {
+                gCtx.clearRect(e.offsetX - 4, e.offsetY - 4, lineThicknessInput.value, lineThicknessInput.value);
+            } else {
+                gCtx.lineTo(e.offsetX, e.offsetY);
+                gCtx.stroke();
             }
+        }
 
-            function onMouseMove(e){
-                e.preventDefault();
-                gCtx.fillRect(e.offsetX - 4, e.offsetY - 4, 8, 8);   
-            }
+        function stopDrawing(e) {
+            e.preventDefault();
+            isDrawing = false;
+            gCtx.closePath();
+        }
 
-            function onMouseUp(e){
-                e.preventDefault();
-                window.removeEventListener('mousemove', onMouseMove);
-                window.removeEventListener('mouseup', onMouseUp);
-            }
+        function toggleErase() {
+            eraseEnable = !eraseEnable; 
+        }
 
-            function onSave() {
-                gCanvas.toBlob((blob) => {
-                    const formData = new FormData();
-                    formData.append('file', blob, 'export.png')
+        function onSave() {
+            gCanvas.toBlob((blob) => {
+                const formData = new FormData();
+                formData.append('file', blob, 'export.png');
 
-                    fetch('/upload', {
-                        method: 'POST',
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        console.log(data)
-
-                        if (data.success) {
-                            console.log('File upload successfully!');
-                        } 
-                        else {
-                            console.error('Error:', data.error)
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error', error);
-                    })
+                fetch('/upload', {
+                    method: 'POST',
+                    body: formData
                 })
-            }
-            gCanvas.addEventListener("mousedown", onMouseDown);
-            document.querySelector('#save').addEventListener('click', onSave);
-         });
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.error('Error', error);
+                });
+            });
+        }
+
+        gCanvas.addEventListener("mousedown", startDrawing);
+        gCanvas.addEventListener("mousemove", draw);
+        gCanvas.addEventListener("mouseup", stopDrawing);
+        gCanvas.addEventListener("mouseout", stopDrawing);
+        document.querySelector('#save').addEventListener('click', onSave);
+        document.querySelector('.btn.btn-light').addEventListener('click', toggleErase);
+    });
+
     </script>
 </head>
 
 <body>
+    <div class = "text-center">
+        <label for="lineThickness">Line Thickness:</label>
+        <input type="range" id="lineThickness" min="1" max="20" value="10">
+        <button type="button" class="btn btn-light">ERASE</button>
+    </div>
+   
+    <br>
     <canvas id = "c" width = "500" height = "500"></canvas>
     <br>
-    <button id = "save">Save</button>
-</body>
+    <div class="text-center">
+    <button type ="button" class = "btn btn-success" id = "save">SAVE</button>
+    </div>
+    <br>
 
 <div class="new-post-container">
     <textarea id = "title" name = "title" rows = "2" cols = "133">Title</textarea>
@@ -92,5 +123,6 @@
         <a href = "/" class="btn btn-danger">CANCEL</a>
     </div>
 </div>
+</body>
 
 {% endblock %}
