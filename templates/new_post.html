@@ -4,6 +4,7 @@
 
 {% block body %}
 
+{% block extra_css %}
 <style>
     canvas {
     padding: 0;
@@ -23,106 +24,129 @@
     text-align: center;
     }
 
-
+    canvas {
+        border: 5px solid black;
+        width: 100%;
+        height: auto;
+        max-width: 512px; 
+    }
 </style>
+{% endblock %}
 
-<h1>NEW POST</h1>
 
-<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const gCanvas = document.querySelector('#c');
-        const gCtx = gCanvas.getContext('2d');
-        let isDrawing = false;
-        let eraseEnable = false; 
+<script>
+         document.addEventListener("DOMContentLoaded", function () {
+            const canvas = document.querySelector('#c');
+            const ctx = gCanvas.getContext('2d');
+            let isDrawing = false;
+            let eraseEnable = false;
 
-        const lineThicknessInput = document.getElementById('lineThickness');
-        function startDrawing(e) {
-            e.preventDefault();
-            isDrawing = true;
-            gCtx.beginPath();
-            gCtx.moveTo(e.offsetX, e.offsetY);
+             // Adjust canvas size based on device pixel ratio
+        var devicePixelRatio = window.devicePixelRatio || 1;
+        var backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
+                                ctx.mozBackingStorePixelRatio ||
+                                ctx.msBackingStorePixelRatio ||
+                                ctx.oBackingStorePixelRatio ||
+                                ctx.backingStorePixelRatio || 1;
+        var ratio = devicePixelRatio / backingStoreRatio;
+
+        if (devicePixelRatio !== backingStoreRatio) {
+            var oldWidth = canvas.width;
+            var oldHeight = canvas.height;
+
+            canvas.width = oldWidth * ratio;
+            canvas.height = oldHeight * ratio;
+
+            canvas.style.width = oldWidth + 'px';
+            canvas.style.height = oldHeight + 'px';
+
+            ctx.scale(ratio, ratio);
         }
 
-        function draw(e) {
+        function onMouseDown(e) {
             e.preventDefault();
-            if (!isDrawing) return;
-            gCtx.lineWidth = lineThicknessInput.value;
-            if (eraseEnable) {
-                gCtx.clearRect(e.offsetX - 4, e.offsetY - 4, lineThicknessInput.value, lineThicknessInput.value);
-            } else {
-                gCtx.lineTo(e.offsetX, e.offsetY);
-                gCtx.stroke();
+            window.addEventListener('mousemove', onMouseMove);
+            window.addEventListener('mouseup', onMouseUp);
+        }
+
+            function onMouseMove(e){
+                e.preventDefault();
+                ctx.fillRect(e.offsetX, e.offsetY, 8, 8);   
             }
-        }
 
-        function stopDrawing(e) {
-            e.preventDefault();
-            isDrawing = false;
-            gCtx.closePath();
-        }
+            function onMouseUp(e){
+                e.preventDefault();
+                window.removeEventListener('mousemove', onMouseMove);
+                window.removeEventListener('mouseup', onMouseUp);
+            }
 
-        function toggleErase() {
-            eraseEnable = !eraseEnable; 
-        }
+            function onSave() {
+            const imageDataURL = canvas.toDataURL();
+            const base64Data = imageDataURL.split(',')[1];
 
-        function onSave() {
-            gCanvas.toBlob((blob) => {
-                const formData = new FormData();
-                formData.append('file', blob, 'export.png');
+            const postData = {
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value,
+                image: base64Data
+            }
 
-                fetch('/upload', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                })
-                .catch(error => {
-                    console.error('Error', error);
-                });
+            // Make the POST request using the Fetch API
+            fetch('/posts/generate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(postData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response data as needed
+                console.log('Response:', data);
+
+                // Optionally, display a message to the user
+                alert('Fruit created successfully!');
+            })
+            .catch(error => {
+                // Handle any errors that occurred during the fetch
+                console.error('Error:', error);
             });
         }
-
         gCanvas.addEventListener("mousedown", startDrawing);
         gCanvas.addEventListener("mousemove", draw);
         gCanvas.addEventListener("mouseup", stopDrawing);
         gCanvas.addEventListener("mouseout", stopDrawing);
         document.querySelector('#save').addEventListener('click', onSave);
         document.querySelector('.btn.btn-light').addEventListener('click', toggleErase);
-    });
-
+         });
     </script>
 </head>
 
-<body>
+<div class="mt-5 d-flex flex-column justify-content-center">
+
     <div class = "text-center">
         <label for="lineThickness">Line Thickness:</label>
         <input type="range" id="lineThickness" min="1" max="20" value="10">
         <button type="button" class="btn btn-light">ERASE</button>
     </div>
-   
-    <br>
-    <canvas id = "c" width = "500" height = "500"></canvas>
-    <br>
-    <div class="text-center">
-    <button type ="button" class = "btn btn-success" id = "save">SAVE</button>
-    </div>
-    <br>
 
-<div class="new-post-container">
-    <textarea id = "title" name = "title" rows = "2" cols = "133">Title</textarea>
-    <br>
-    <textarea id = "caption" name ="caption" rows = "15" cols = "133">Caption (optional)</textarea>
-    <div class = "text-center">
-        <br>
-        <button type="button" class="btn btn-success">POST</button>    
-        <a href = "/" class="btn btn-danger">CANCEL</a>
+    <canvas class="mb-3 mx-auto" id="c" width="512" height="512"></canvas>
+
+    <div class="mt-2 form-group">
+        <label for="title">Title</label>
+        <textarea class="form-control" id="title" name="title" rows="2" placeholder="Enter title"></textarea>
     </div>
+
+    <div class="mt-2 form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="5" placeholder="Enter description"></textarea>
+    </div>
+
+    <div class="mt-2 text-center">
+        <button type="button" class="btn btn-success" id="save">POST</button>
+        <a href="/" class="btn btn-danger">CANCEL</a>
+    </div>
+
 </div>
-</body>
+
 
 {% endblock %}
