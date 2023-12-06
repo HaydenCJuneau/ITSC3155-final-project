@@ -7,10 +7,10 @@
 {% block extra_css %}
 <style>
     canvas {
-    padding: 0;
-    margin: auto;
-    display: block;
-    border: 5px solid black;
+        padding: 0;
+        margin: auto;
+        display: block;
+        border: 5px solid black;
     }
 
     #caption, #title{ 
@@ -19,9 +19,8 @@
         margin-right: auto;
     }
 
-
     h1{
-    text-align: center;
+        text-align: center; 
     }
 
     canvas {
@@ -33,15 +32,14 @@
 </style>
 {% endblock %}
 
-
 <script>
-         document.addEventListener("DOMContentLoaded", function () {
-            const canvas = document.querySelector('#c');
-            const ctx = gCanvas.getContext('2d');
-            let isDrawing = false;
-            let eraseEnable = false;
+    document.addEventListener("DOMContentLoaded", function () {
+        const canvas = document.querySelector('#c');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let eraseEnable = false;
 
-             // Adjust canvas size based on device pixel ratio
+        // Adjust canvas size based on device pixel ratio
         var devicePixelRatio = window.devicePixelRatio || 1;
         var backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
                                 ctx.mozBackingStorePixelRatio ||
@@ -63,24 +61,38 @@
             ctx.scale(ratio, ratio);
         }
 
-        function onMouseDown(e) {
+        const lineThicknessInput = document.getElementById('ln_thk');
+        
+        function startDrawing(e) {
             e.preventDefault();
-            window.addEventListener('mousemove', onMouseMove);
-            window.addEventListener('mouseup', onMouseUp);
+            isDrawing = true;
+            ctx.beginPath();
+            ctx.moveTo(e.offsetX, e.offsetY);
         }
 
-            function onMouseMove(e){
-                e.preventDefault();
-                ctx.fillRect(e.offsetX, e.offsetY, 8, 8);   
+        function draw(e) {
+            e.preventDefault();
+            if (!isDrawing) return;
+            ctx.lineWidth = lineThicknessInput.value;
+            if (eraseEnable) {
+                ctx.clearRect(e.offsetX - 4, e.offsetY - 4, lineThicknessInput.value, lineThicknessInput.value);
+            } else {
+                ctx.lineTo(e.offsetX, e.offsetY);
+                ctx.stroke();
             }
+        }
 
-            function onMouseUp(e){
-                e.preventDefault();
-                window.removeEventListener('mousemove', onMouseMove);
-                window.removeEventListener('mouseup', onMouseUp);
-            }
+        function stopDrawing(e) {
+            e.preventDefault();
+            isDrawing = false;
+            ctx.closePath();
+        }
 
-            function onSave() {
+        function toggleErase() {
+            eraseEnable = !eraseEnable; 
+        }
+
+        function onSave() {
             const imageDataURL = canvas.toDataURL();
             const base64Data = imageDataURL.split(',')[1];
 
@@ -111,22 +123,23 @@
                 console.error('Error:', error);
             });
         }
-        gCanvas.addEventListener("mousedown", startDrawing);
-        gCanvas.addEventListener("mousemove", draw);
-        gCanvas.addEventListener("mouseup", stopDrawing);
-        gCanvas.addEventListener("mouseout", stopDrawing);
+
+        canvas.addEventListener("mousedown", startDrawing);
+        canvas.addEventListener("mousemove", draw);
+        canvas.addEventListener("mouseup", stopDrawing);
+        canvas.addEventListener("mouseout", stopDrawing);
         document.querySelector('#save').addEventListener('click', onSave);
-        document.querySelector('.btn.btn-light').addEventListener('click', toggleErase);
-         });
-    </script>
-</head>
+        document.querySelector('#ln_ers').addEventListener('click', toggleErase);
+    });
+</script>
+
 
 <div class="mt-5 d-flex flex-column justify-content-center">
 
     <div class = "text-center">
-        <label for="lineThickness">Line Thickness:</label>
-        <input type="range" id="lineThickness" min="1" max="20" value="10">
-        <button type="button" class="btn btn-light">ERASE</button>
+        <label for="ln_thk">Line Thickness:</label>
+        <input type="range" id="ln_thk" min="1" max="20" value="10">
+        <button type="button" id="ln_ers" class="btn btn-light">ERASE</button>
     </div>
 
     <canvas class="mb-3 mx-auto" id="c" width="512" height="512"></canvas>

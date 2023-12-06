@@ -18,7 +18,8 @@ def generate_post():
     image - a blob or b64 encoded image
     """
     data = request.get_json()
-    print(data)    
+    print(data)
+    decode_image(data["image"], f'./uploads/input.png', 'PNG')    
     
     # TODO: Create a post in the DB, flagged as pending
 

@@ -42,11 +42,11 @@ def parse_models():
     [print(x) for x in filtered]
 
 
-def decode_image(base64_string: str):
+def decode_image(base64_string: str, file_name: str, ext: str ='JPEG'):
     image_data = base64.b64decode(base64_string)
     image_stream = BytesIO(image_data)
     image = Image.open(image_stream)
-    image.save(f'./uploads/output.jpg', 'JPEG')
+    image.save(file_name, ext)
 
 
 def invert_ctrl_image(img_path: str):
@@ -97,5 +97,5 @@ def queue_image_generation(post_id: int, user_prompt: str, ctrl_image: str):
     # Decode and save the image
     json_response = response.json()
 
-    decode_image(json_response["image"])
+    decode_image(json_response["image"], f'./uploads/output.jpg')
     return json_response["image"]
