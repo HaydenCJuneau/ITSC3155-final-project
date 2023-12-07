@@ -18,7 +18,7 @@ class Posts(db.Model):
     title = db.Column(db.String(255), nullable=False)
     timestamp = db.Column(db.TIMESTAMP, nullable=False)
     description = db.Column(db.Text, nullable=False)
-    status = db.Column(db.String(255), nullabe=False)
+    status = db.Column(db.String(255), nullable=False)
 
     author_id = db.Column(db.Integer, db.ForeignKey('user.user_id'), \
                             nullable=False)
