@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, redirect, request, session, flash, get_flashed_messages, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 
-from src.models import db, Users
+from src.models import db, User
 
 from dotenv import load_dotenv
 
@@ -57,7 +57,7 @@ def create_user():
     email = request.form['email']
     password = request.form['password']
     hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
-    new_user = Users(username=username, email=email, password=hashed_password)
+    new_user = User(username=username, email=email, password=hashed_password)
     db.session.add(new_user)
     db.session.commit()
     return redirect('/users/login')
@@ -70,7 +70,7 @@ def login_form():
 def login_user():
     username = request.form['username']
     password = request.form['password']
-    user = Users.query.filter_by(username=username).first()
+    user = User.query.filter_by(username=username).first()
     if user and check_password_hash(user.password, password):
         session['user_id'] = user.user_id
         return redirect('/users/profile')
@@ -82,7 +82,7 @@ def profile():
     if 'user_id' not in session:
         return redirect('/users/login')
     user_id = session['user_id']
-    user = Users.query.get(user_id)
+    user = User.query.get(user_id)
     return render_template('profile.html', user=user)
 
 @app.get('/users/profile/edit')
@@ -90,7 +90,7 @@ def edit_profile_form():
     if 'user_id' not in session:
         return redirect('/users/login')
     user_id = session['user_id']
-    user = Users.query.get(user_id)
+    user = User.query.get(user_id)
     return render_template('edit_profile.html', user=user)
 
 @app.post('/users/profile/edit')
@@ -98,7 +98,7 @@ def edit_profile():
     if 'user_id' not in session:
         return redirect('/users/login')
     user_id = session['user_id']
-    user = Users.query.get(user_id)
+    user = User.query.get(user_id)
     user.username = request.form['username']
     user.email = request.form['email']
     db.session.commit()
@@ -112,7 +112,7 @@ def logout():
 @app.post('/users/delete')
 def delete_user():
     user_id = session.get('user_id')   
-    user = Users.query.get(user_id)
+    user = User.query.get(user_id)
     if user:
         db.session.delete(user)
         db.session.commit()
