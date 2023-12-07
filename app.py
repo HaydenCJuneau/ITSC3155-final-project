@@ -64,12 +64,6 @@ def signup_user():
     email = request.form['email']
     password = request.form['password']
     hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
-<<<<<<< HEAD
-    new_user = Users(username=username, email=email, password=hashed_password)
-    db.session.add(new_user)
-    db.session.commit()
-    return redirect('/users/login')
-=======
 
     result = create_user(username, email, hashed_password)
     if result == 'Success':
@@ -78,7 +72,6 @@ def signup_user():
     else:
         flash(result) 
         return redirect('/users/signup')
->>>>>>> main
 
 @app.get('/users/login')
 def login_form():
@@ -91,13 +84,8 @@ def login_form():
 def login_user():
     email = request.form['email']
     password = request.form['password']
-<<<<<<< HEAD
-    user = Users.query.filter_by(username=username).first()
-    if user and check_password_hash(user.password, password):
-=======
     user = check_user_credentials(email, password)
     if user:
->>>>>>> main
         session['user_id'] = user.user_id
         session['username'] = user.username
         return redirect('/')
@@ -111,11 +99,7 @@ def profile():
         flash('Please log in to access your profile.')
         return redirect('/')
     user_id = session['user_id']
-<<<<<<< HEAD
-    user = Users.query.get(user_id)
-=======
     user = get_user_by_id(user_id)
->>>>>>> main
     return render_template('profile.html', user=user)
 
 @app.get('/users/profile/edit')
@@ -124,11 +108,7 @@ def edit_profile_form():
         flash('Please log in to edit your profile.')
         return redirect('/')
     user_id = session['user_id']
-<<<<<<< HEAD
-    user = Users.query.get(user_id)
-=======
     user = get_user_by_id(user_id)
->>>>>>> main
     return render_template('edit_profile.html', user=user)
 
 @app.post('/users/profile/edit')
@@ -137,13 +117,6 @@ def edit_profile():
         flash('Please log in to edit your profile')
         return redirect('/')
     user_id = session['user_id']
-<<<<<<< HEAD
-    user = Users.query.get(user_id)
-    user.username = request.form['username']
-    user.email = request.form['email']
-    db.session.commit()
-    return redirect('/users/profile')
-=======
     username = request.form['username']
     email = request.form['email']
 
@@ -155,7 +128,6 @@ def edit_profile():
     else:
         flash(result)  
         return redirect('/users/profile/edit')
->>>>>>> main
 
 @app.get('/users/logout')
 def logout():
@@ -169,15 +141,6 @@ def logout():
 
 @app.post('/users/delete')
 def delete_user():
-<<<<<<< HEAD
-    user_id = session.get('user_id')   
-    user = Users.query.get(user_id)
-    if user:
-        db.session.delete(user)
-        db.session.commit()
-        session.pop('user_id', None)
-        flash('Your account has been successfully deleted')
-=======
     if not is_logged_in():
         flash('Please log in to delete your account.')
         return redirect('/')
@@ -185,7 +148,6 @@ def delete_user():
     if delete_user_account(user_id):
         session.clear()
         flash('Your account has been successfully deleted.')
->>>>>>> main
     else:
         flash('User could not be found')
     return redirect('/')
