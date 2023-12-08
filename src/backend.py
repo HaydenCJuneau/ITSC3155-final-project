@@ -1,7 +1,11 @@
 from werkzeug.security import check_password_hash
 from src.models import db, User
+import re
 
 def create_user(username, email, password_hash):
+    if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+        return 'Invalid email format'
+    
     if User.query.filter_by(username=username).first():
         return 'Username already in use'
     if User.query.filter_by(email=email).first():
@@ -20,6 +24,10 @@ def get_user_by_id(user_id):
 
 def update_user_profile(user_id, username, email):
     user = get_user_by_id(user_id)
+
+    if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+        return 'Invalid email format'
+
     existing_username = User.query.filter(User.user_id != user_id, User.username == username).first()
     existing_email = User.query.filter(User.user_id != user_id, User.email == email).first()
 
@@ -46,3 +54,8 @@ def check_user_credentials(email, password):
     if user and check_password_hash(user.password, password):
         return user
     return None
+
+def clear_db():
+    db.session.remove()
+    db.drop_all()
+    db.create_all()
