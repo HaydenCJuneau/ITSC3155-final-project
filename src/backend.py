@@ -46,3 +46,8 @@ def check_user_credentials(email, password):
     if user and check_password_hash(user.password, password):
         return user
     return None
+
+def clear_db():
+    db.session.remove()
+    db.drop_all()
+    db.create_all()
