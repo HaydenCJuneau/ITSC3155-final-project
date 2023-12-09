@@ -1,27 +1,35 @@
 from werkzeug.security import check_password_hash
-from src.models import db, User
+from src.models import db, Users
+import re
 
 def create_user(username, email, password_hash):
-    if User.query.filter_by(username=username).first():
+    if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+        return 'Invalid email format'
+    
+    if Users.query.filter_by(username=username).first():
         return 'Username already in use'
-    if User.query.filter_by(email=email).first():
+    if Users.query.filter_by(email=email).first():
         return 'Email already in use'
 
-    new_user = User(username=username, email=email, password=password_hash)
+    new_user = Users(username=username, email=email, password=password_hash)
     db.session.add(new_user)
     db.session.commit()
     return 'Success'
 
 def get_user_by_email(email):
-    return User.query.filter_by(email=email).first()
+    return Users.query.filter_by(email=email).first()
 
 def get_user_by_id(user_id):
-    return User.query.get(user_id)
+    return Users.query.get(user_id)
 
 def update_user_profile(user_id, username, email):
     user = get_user_by_id(user_id)
-    existing_username = User.query.filter(User.user_id != user_id, User.username == username).first()
-    existing_email = User.query.filter(User.user_id != user_id, User.email == email).first()
+
+    if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+        return 'Invalid email format'
+
+    existing_username = Users.query.filter(Users.user_id != user_id, Users.username == username).first()
+    existing_email = Users.query.filter(Users.user_id != user_id, Users.email == email).first()
 
     if existing_username:
         return 'Username already in use'
@@ -46,3 +54,8 @@ def check_user_credentials(email, password):
     if user and check_password_hash(user.password, password):
         return user
     return None
+
+def clear_db():
+    db.session.remove()
+    db.drop_all()
+    db.create_all()
