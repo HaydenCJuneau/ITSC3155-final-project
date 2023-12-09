@@ -51,11 +51,5 @@ def about():
     return render_template('about.html')
 
 
-# TODO: This is a test route, delete at some point
-@app.route('/new_post.html')
-def new_post():
-    return render_template('new_post.html')
-
-
 if __name__ == '__main__':
     app.run(debug=True)

@@ -6,13 +6,6 @@
 
 {% block extra_css %}
 <style>
-    canvas {
-        padding: 0;
-        margin: auto;
-        display: block;
-        border: 5px solid black;
-    }
-
     #caption, #title{ 
         display: block;
         margin-left: auto;
@@ -24,115 +17,17 @@
     }
 
     canvas {
+        padding: 0;
+        margin: auto;
+        display: block;
         border: 5px solid black;
-        width: 100%;
-        height: auto;
+        border: 5px solid black;
         max-width: 512px; 
     }
 </style>
 {% endblock %}
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const canvas = document.querySelector('#c');
-        const ctx = canvas.getContext('2d');
-        let isDrawing = false;
-        let eraseEnable = false;
-
-        // Adjust canvas size based on device pixel ratio
-        var devicePixelRatio = window.devicePixelRatio || 1;
-        var backingStoreRatio = ctx.webkitBackingStorePixelRatio ||
-                                ctx.mozBackingStorePixelRatio ||
-                                ctx.msBackingStorePixelRatio ||
-                                ctx.oBackingStorePixelRatio ||
-                                ctx.backingStorePixelRatio || 1;
-        var ratio = devicePixelRatio / backingStoreRatio;
-
-        if (devicePixelRatio !== backingStoreRatio) {
-            var oldWidth = canvas.width;
-            var oldHeight = canvas.height;
-
-            canvas.width = oldWidth * ratio;
-            canvas.height = oldHeight * ratio;
-
-            canvas.style.width = oldWidth + 'px';
-            canvas.style.height = oldHeight + 'px';
-
-            ctx.scale(ratio, ratio);
-        }
-
-        const lineThicknessInput = document.getElementById('ln_thk');
-        
-        function startDrawing(e) {
-            e.preventDefault();
-            isDrawing = true;
-            ctx.beginPath();
-            ctx.moveTo(e.offsetX, e.offsetY);
-        }
-
-        function draw(e) {
-            e.preventDefault();
-            if (!isDrawing) return;
-            ctx.lineWidth = lineThicknessInput.value;
-            if (eraseEnable) {
-                ctx.clearRect(e.offsetX - 4, e.offsetY - 4, lineThicknessInput.value, lineThicknessInput.value);
-            } else {
-                ctx.lineTo(e.offsetX, e.offsetY);
-                ctx.stroke();
-            }
-        }
-
-        function stopDrawing(e) {
-            e.preventDefault();
-            isDrawing = false;
-            ctx.closePath();
-        }
-
-        function toggleErase() {
-            eraseEnable = !eraseEnable; 
-        }
-
-        function onSave() {
-            const imageDataURL = canvas.toDataURL("image/jpeg", 1.0);
-            const base64Data = imageDataURL.split(',')[1];
-
-            const postData = {
-                title: document.getElementById('title').value,
-                description: document.getElementById('description').value,
-                image: base64Data
-            }
-
-            // Make the POST request using the Fetch API
-            fetch('/posts/generate', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(postData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Handle the response data as needed
-                console.log('Response:', data);
-
-                // Optionally, display a message to the user
-                alert('Fruit created successfully!');
-            })
-            .catch(error => {
-                // Handle any errors that occurred during the fetch
-                console.error('Error:', error);
-            });
-        }
-
-        canvas.addEventListener("mousedown", startDrawing);
-        canvas.addEventListener("mousemove", draw);
-        canvas.addEventListener("mouseup", stopDrawing);
-        canvas.addEventListener("mouseout", stopDrawing);
-        document.querySelector('#save').addEventListener('click', onSave);
-        document.querySelector('#ln_ers').addEventListener('click', toggleErase);
-    });
-</script>
-
+<script src="../static/js/new_post.js"></script>
 
 <div class="mt-5 d-flex flex-column justify-content-center">
 
