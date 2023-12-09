@@ -2,6 +2,7 @@ let isDrawing = false;
 let eraseEnable = false;
 let lineThicknessInput;
 
+let eraseToggle;
 let canvas;
 let ctx;
 
@@ -31,7 +32,7 @@ function stopDrawing(e) {
 }
 
 function toggleErase() {
-    eraseEnable = !eraseEnable; 
+    eraseEnable = eraseToggle.checked; 
 }
 
 function clearCanvas(){
@@ -87,7 +88,11 @@ function InitializeCanvas() {
 document.addEventListener("DOMContentLoaded", function () {
     InitializeCanvas();
     lineThicknessInput = document.getElementById('ln_thk');
+    eraseToggle = document.getElementById('eraseToggle');
+
+    eraseToggle.checked = false;
+
     document.querySelector('#save').addEventListener('click', onSave);
-    document.querySelector('#ln_ers').addEventListener('click', toggleErase);
+    eraseToggle.addEventListener('change', toggleErase);
     document.querySelector('#ln_clr').addEventListener('click',clearCanvas);
 });
