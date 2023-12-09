@@ -34,6 +34,10 @@ function toggleErase() {
     eraseEnable = !eraseEnable; 
 }
 
+function clearCanvas(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
 function onSave() {
     const imageDataURL = canvas.toDataURL('image/jpeg', 1.0);
     const base64Data = imageDataURL.split(',')[1];
@@ -85,4 +89,5 @@ document.addEventListener("DOMContentLoaded", function () {
     lineThicknessInput = document.getElementById('ln_thk');
     document.querySelector('#save').addEventListener('click', onSave);
     document.querySelector('#ln_ers').addEventListener('click', toggleErase);
+    document.querySelector('#ln_clr').addEventListener('click',clearCanvas);
 });
