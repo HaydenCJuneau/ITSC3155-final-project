@@ -24,9 +24,9 @@ db.init_app(app)
 def index():
     return render_template('index.html')
 
-@app.get('/posts')
+@app.get('/create_post')
 def new_post():
-    return render_template('new_post.html')
+    return render_template('create_post.html')
 
 
 @app.get('/post/<post_id>')
@@ -43,9 +43,13 @@ def search():
 def contact():
     return render_template('contact.html')
 
-@app.route('/home/About')
+@app.route('/about')
 def about():
     return render_template('about.html')
+
+@app.route('/posts')
+def posts():
+    return render_template('posts.html')
 
 
 def is_logged_in():
