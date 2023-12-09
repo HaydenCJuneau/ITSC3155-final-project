@@ -24,6 +24,10 @@
         border: 5px solid black;
         max-width: 512px; 
     }
+    .text-center{
+        display: flex;
+        justify-content: space-between;
+    }
 </style>
 {% endblock %}
 
@@ -35,8 +39,9 @@
         <label for="ln_thk">Line Thickness:</label>
         <input type="range" id="ln_thk" min="1" max="20" value="10">
         <button type="button" id="ln_ers" class="btn btn-light">ERASE</button>
+        <button type="button" id="ln_clr" class="btn btn-danger">CLEAR</button>
     </div>
-
+    <br>
     <canvas class="mb-3 mx-auto" id="c" width="512" height="512"></canvas>
 
     <div class="mt-2 form-group">
