@@ -1,4 +1,4 @@
-from src.backend import get_user_by_email, clear_db
+from src.user_utils import get_user_by_email, clear_db
 
 def test_access_edit_profile_page_not_logged_in(test_app):
     

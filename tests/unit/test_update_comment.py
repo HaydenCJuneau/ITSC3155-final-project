@@ -1,4 +1,4 @@
-from src.backend import create_user, clear_db
+from src.user_utils import create_user, clear_db
 from src.models import db, Posts, Users, Comments
 # May want to delete these imports after refining. This test is in a temporary state
 from datetime import datetime
