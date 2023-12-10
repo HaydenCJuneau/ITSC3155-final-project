@@ -1,0 +1,33 @@
+{% extends "_layout.html" %}
+
+{% block title %}New Post{% endblock %}
+
+{% block body %}
+
+
+<style>
+    #caption, #title{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    h1{
+    text-align: center;
+    }
+</style>
+
+<h1>NEW POST</h1>
+
+<div class="new-post-container">
+    <textarea id = "title" name = "title" rows = "2" cols = "133">TITLE</textarea>
+    <br>
+    <textarea id = "caption" name ="caption" rows = "15" cols = "133">CAPTION (OPTIONAL)</textarea>
+    <div class = "text-center">
+        <br>
+        <button type="button" class="btn btn-success">POST</button>    
+        <button type="button" class="btn btn-danger">CANCEL</button>
+    </div>
+</div>
+
+{% endblock %}

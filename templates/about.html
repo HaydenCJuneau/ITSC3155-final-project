@@ -1,10 +1,18 @@
-{% extends '_layout.html' %}
+{% extends "_layout.html" %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/about-us-style.css') }}">
+{% endblock %}
 
 {% block title %}About Us{% endblock %}
 
 {% block body %}
   <h1>About Us!</h1>
+<<<<<<< HEAD
   <p>Welcome to Sasank's Fruity Website! Ever see an orange and thought it looked too orange? Or saw a blueberry thought that it didn't quite earn the name BLUEberry? Ever wish it was possible to create a completely new fruit? Well now it is possible! It's all thanks to our founder Sasank Pagadala, inventor of a new gene splicing tech, that allows you to create any fruit you can imagine! Now you can create apples with your favorite sports team's logo! Or you can create a new rasberry fruit plate. A useful plate that is also an edible raspberry tasting fruit, so there are no dishes after supper, just go ahead and eat your entire plate! Literally!</p>
+=======
+  <p>Welcome to Sasank's Fruity Website! Ever see an orange and thought it looked too orange? Or saw a blueberry thought that it didn't quite earn the name BLUEberry? Ever wish it was possible to create a completely new fruit? Well now it is possible! It's all thanks to our founder Sasank Pagadala, inventor of a new gene splicing tech, that allows you to create any fruit you can imagine! Now you can create apples with your favorite sports team's logo! Or you can create a new raspberry fruit plate. A useful plate that is also an edible raspberry tasting fruit, so there are no dishes after supper, just go ahead and eat your entire plate! Literally!</p>
+>>>>>>> main
 
   <p>All you have to do is draw a rough sketch of what you want and our artificial intelligence will go to work! Create any fruit you want, save it, and then post it to our website! Other people will then be able to see your new creation. You can see others comments on your post or checkout someone else's post and make a comment of your own!</p>
 
@@ -12,5 +20,49 @@
 
   <h1>Meet Our Team!</h1>
 
+<<<<<<< HEAD
   
+=======
+  <div class="d-flex flex-wrap">
+    {% for key, value in creators_dict.items() %}
+    {% if loop.index % 3 == 1 %}
+        </div><div class="d-flex flex-wrap">
+    {% endif %}
+    <div class="card m-5" style="width: 18rem;">
+        <img src="{{ value.image_src }}" class="card-img-top" alt="picture of {{ key }}">
+        <div class="card-body">
+            <h5 class="card-title">{{ key }}</h5>
+            <p class="card-text">{{ value.description }}</p>
+            <a href="#" class="btn btn-primary m-4"><i class="bi bi-linkedin"></i> LinkedIn</a>
+            <a href="#" class="btn btn-primary m-2"><i class="bi bi-github"></i> GitHub</a>
+        </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!--
+  <section class="team-section">
+    <div class="team-member">
+        <h3>Member 1</h3>
+        <p>...description...</p>
+    </div>
+    <div class="team-member">
+        <h3>Member 2</h3>
+        <p>...description...</p>
+    </div>
+    <div class="team-member">
+        <h3>Member 3</h3>
+        <p>...description...</p>
+    </div>
+    <div class="team-member">
+        <h3>Member 4</h3>
+        <p>...description...</p>
+    </div>
+    <div class="team-member">
+        <h3>Member 5</h3>
+        <p>...description...</p>
+    </div>
+  </section>
+  -->
+>>>>>>> main
 {% endblock %}
