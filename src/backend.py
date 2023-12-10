@@ -2,6 +2,33 @@ from werkzeug.security import check_password_hash
 from src.models import db, User
 import re
 
+creators_dict = {
+    'Hayden Juneau': {
+        'description': '...',
+        'image_src': '../static/images/hayden_headshot.jpg'
+    },
+    'Oliver Brito': {
+        'description': '...',
+        'image_src': ''
+    },
+    'Sasank Pagadala': {
+        'description': '...',
+        'image_src': ''
+    },
+    'Safa Rasheed': {
+        'description': '...',
+        'image_src': ''
+    },
+    'Yadhira Marcos': {
+        'description': '...',
+        'image_src': ''
+    },
+    'Michael Gohn': {
+        'description': '...',
+        'image_src': '../static/images/michael_headshot.JPG'
+    },
+}
+
 def create_user(username, email, password_hash):
     if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
         return 'Invalid email format'
