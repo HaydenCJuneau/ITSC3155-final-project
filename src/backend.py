@@ -5,27 +5,39 @@ import re
 creators_dict = {
     'Hayden Juneau': {
         'description': '...',
-        'image_src': '../static/images/hayden_headshot.jpg'
+        'image_src': '../static/images/hayden_headshot.jpg',
+        'linkedin_link': '#',
+        'github_link': '#'
     },
     'Oliver Brito': {
         'description': '...',
-        'image_src': ''
+        'image_src': '',
+        'linkedin_link': '#',
+        'github_link': '#'
     },
     'Sasank Pagadala': {
         'description': '...',
-        'image_src': ''
+        'image_src': '',
+        'linkedin_link': '#',
+        'github_link': '#'
     },
     'Safa Rasheed': {
         'description': '...',
-        'image_src': ''
+        'image_src': '',
+        'linkedin_link': '#',
+        'github_link': '#'
     },
     'Yadhira Marcos': {
         'description': '...',
-        'image_src': ''
+        'image_src': '',
+        'linkedin_link': '#',
+        'github_link': '#'
     },
     'Michael Gohn': {
         'description': '...',
-        'image_src': '../static/images/michael_headshot.JPG'
+        'image_src': '../static/images/michael_headshot.JPG',
+        'linkedin_link': 'https://www.linkedin.com/in/michael-gohn-8a8963236/',
+        'github_link': 'https://github.com/dashboard'
     },
 }
 
