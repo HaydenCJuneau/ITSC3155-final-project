@@ -1,11 +1,16 @@
 import os
 from flask import Flask, render_template, redirect, request, session, flash, get_flashed_messages, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
-from src.backend import create_user, check_user_credentials, update_user_profile, delete_user_account, get_user_by_id, creators_dict
-
-from src.models import db, Users
+from src.backend import create_user, check_user_credentials, update_user_profile, delete_user_account, get_user_by_id, creators_dict, save_item_to_db
+# Temp DELETE save_item_to_db import
+# Temp DELETE Posts import
+from src.models import db, Users, Posts
+import base64
 
 from dotenv import load_dotenv
+
+# Temp DELETE
+from datetime import datetime
 
 load_dotenv()
 
@@ -104,7 +109,17 @@ def profile():
         return redirect('/')
     user_id = session['user_id']
     user = get_user_by_id(user_id)
+    # Temp DELETE THIS!!!
+    dummy_image_path = 'static/images/hayden_headshot.JPG'
+    dummy_image_binary = open(dummy_image_path, 'rb').read()
+    post1 = Posts(image=dummy_image_binary, title='title1', timestamp=datetime.utcnow(), description='Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate saepe earum facere aut ipsum perspiciatis magni vitae aliquid nihil pariatur? Repellat, officia magnam excepturi rem cumque error laudantium harum numquam maiores maxime nulla fugiat, hic est eum quibusdam culpa ducimus. Saepe at dolore soluta cumque sequi! Deleniti magnam iste temporibus non. Consequuntur possimus voluptatum ab natus praesentium ea laboriosam rerum. Corrupti obcaecati quos id ipsam cupiditate excepturi quasi perspiciatis voluptatum optio vero, officia quis nam qui soluta doloribus minus. Laudantium dolorem nam aspernatur voluptatum esse ullam et iusto excepturi. Excepturi exercitationem ut fugit, cumque qui, adipisci reprehenderit recusandae distinctio, laborum nihil alias explicabo magni itaque molestias officiis voluptatum voluptatibus vel iusto voluptates? Eveniet, animi quo distinctio impedit maxime fugit? Blanditiis aut distinctio exercitationem? Nobis distinctio iste rem, vel maiores quisquam, qui fugit corporis debitis ab explicabo nostrum natus!', status='GOOD', author_id=user.user_id)
+    save_item_to_db(post1)
     return render_template('profile.html', user=user)
+
+# Temp
+@app.template_filter('b64encode')
+def b64encode(value):
+    return base64.b64encode(value).decode('utf-8')
 
 @app.get('/users/profile/edit')
 def edit_profile_form():
