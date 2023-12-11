@@ -1,6 +1,7 @@
 from werkzeug.security import check_password_hash
 from src.models import db, Users
 import re
+import os
 
 def create_user(username, email, password_hash):
     if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
@@ -59,3 +60,11 @@ def clear_db():
     db.session.remove()
     db.drop_all()
     db.create_all()
+
+def generate_dummy_binary(size):
+    return os.urandom(size)
+
+def save_item_to_db(item):
+    db.session.add(item)
+    db.session.commit()
+    return None # DO NOT delete! Tests unexpectedly error without it!
