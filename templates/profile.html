@@ -16,28 +16,36 @@ Profile Page
     {% endwith %}
   </div>
   <div class="d-flex">
-    <div class="posts-list col-md-9">
+    <div class="posts-list flex-grow-1">
       <h1>Your Posts</h1>
 
       <div class="posts">
-        <div class="post border-secondary border border-1 p-2 m-2 d-flex justify-content-evenly align-items-start">
-          <div class="img-box mt-3">
+        <div class="post border-secondary border border-1 p-2 m-2 d-flex justify-content-around">
+          <div class="img-box">
             <img src="../static/images/sample.jpg" alt="sample picture" height="100" width="100">
           </div>
-          <div class="text-content col-md-6">
-            <h4>Title: dummy_title</h4>
-            <p>Description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet consectetur cumque doloribus sit veniam reiciendis excepturi cum consequuntur? Eos modi incidunt rem porro vitae eius asperiores autem odio assumenda? Sed consectetur voluptatum sit delectus quod corporis sapiente blanditiis commodi ratione eius?</p>
+          <div class="text-content">
+            <p>Title: dummy_title</p>
+            <p>Description: dummy_description</p>
           </div>
-          <div class="post-data col-md-3 d-flex flex-column mt-3">
-            <small class="mb-4">Date Posted: dummy_date</small>
-            <small>Author: dummy_name</small>
+          <div class="post-data">
+            <p>Date Posted: dummy_date</p>
+            <p>Author: dummy_name</p>
           </div>
+
+        </div>
+        <div class="post border-secondary border border-1 p-2 m-2">
+
+        </div>
+        <div class="post border-secondary border border-1 p-2 m-2">
+
         </div>
       </div>
+
+
+
     </div>
-
-
-    <div class="profile-panel border-start border-secondary border-2 p-2 ps-5 d-flex flex-column align-items-center col-md-3">
+    <div class="profile-panel border-start border-secondary border-2 p-2 ps-5 d-flex flex-column align-items-center">
       <div class="profile-info d-flex flex-column align-items-center">
         <h1>Profile</h1>
         <img src="../static/images/default-user-pic.jpg" alt="user-picture" class="rounded-circle" width="100" height="100">
@@ -47,11 +55,11 @@ Profile Page
 
       <div class="popular-post-comment mt-5 border-top border-secondary border-2 pt-5">
         <div class="popular-post">
-          <h3>Your Most Popular Post</h3>
+          <h4>Your Most Popular Post</h4>
         </div>
   
         <div class="popular-comment">
-          <h3>Your Most Popular Comment</h3>
+          <h4>Your Most Popular Comment</h4>
           <p>Filler comment for now</p>
         </div>
   
