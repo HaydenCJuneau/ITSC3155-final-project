@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, redirect, request, session, flash, get_flashed_messages, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
-from src.backend import create_user, check_user_credentials, update_user_profile, delete_user_account, get_user_by_id
+from src.backend import create_user, check_user_credentials, update_user_profile, delete_user_account, get_user_by_id, creators_dict
 
 from src.models import db, User
 
@@ -24,9 +24,9 @@ db.init_app(app)
 def index():
     return render_template('index.html')
 
-@app.get('/posts')
+@app.get('/create_post')
 def new_post():
-    return render_template('new_post.html')
+    return render_template('create_post.html')
 
 
 @app.get('/post/<post_id>')
@@ -43,9 +43,13 @@ def search():
 def contact():
     return render_template('contact.html')
 
-@app.route('/home/About')
+@app.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('about.html', creators_dict=creators_dict)
+
+@app.route('/posts')
+def posts():
+    return render_template('posts.html')
 
 
 def is_logged_in():
