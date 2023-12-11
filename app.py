@@ -3,7 +3,7 @@ from flask import Flask, render_template, redirect, request, session, flash, get
 from werkzeug.security import generate_password_hash, check_password_hash
 from src.backend import create_user, check_user_credentials, update_user_profile, delete_user_account, get_user_by_id, creators_dict
 
-from src.models import db, User
+from src.models import db, Users
 
 from dotenv import load_dotenv
 
