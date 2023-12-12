@@ -1,0 +1,59 @@
+{% extends '_layout.html' %} 
+
+{% block title %} View Post {% endblock %}
+
+{% block body %}
+
+{% block extra_css %}
+<style>
+    #caption, #title { 
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    h1 {
+        text-align: center; 
+    }
+
+    #myImage {
+        max-width: 512px;
+        max-height: 512px;
+    }
+</style>
+{% endblock %}
+
+
+<script>
+    // Make a GET request to "/post/0"
+    fetch('/post/{{post_id}}', {
+        headers: {
+            "Accept": "application/json"
+        }
+    })
+    .then(response => {
+        if (!response.ok) 
+            throw new Error('Network response was not ok');
+
+        return response.json();
+    })
+    .then(data => {
+        const b64Img = data.image;
+        const imgElement = document.getElementById('myImage');
+        imgElement.src = `data:image/jpeg;base64,${b64Img}`;
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+</script>
+
+
+<div class="mt-5 d-flex flex-column justify-content-center">
+    
+    <h1>View Post {{post_id}}</h1>
+    <img id="myImage" class="mx-auto" alt="Fetched Image">
+
+</div>
+
+
+{% endblock %}
