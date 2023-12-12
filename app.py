@@ -21,8 +21,8 @@ db.init_app(app)
 
 
 @app.get('/')
-def index():
-    return render_template('index.html')
+def home():
+    return render_template('home.html')
 
 @app.get('/create_post')
 def new_post():

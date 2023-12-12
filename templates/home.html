@@ -1,0 +1,57 @@
+{% extends '_layout.html' %}
+
+{% block title %}
+Home Page
+{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="styles.css">
+
+{% endblock %}
+
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Overlay Hover Effect</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="text-container-h">
+      <div class="content-container">
+        <div class="text-container">
+          <h1> WELCOME </h1>
+          <h1> TO </h1>
+          <h1> SASANK'S FRUITY WEBSITE </h1>
+        </div>
+        <div class="image-container">
+          <img src="../static/images/Bananaer_Home.png" alt="Image">
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <div class="text-container-p">
+      <h9>It's the year 2035, and as we all know, our supreme ruler Sasank Pagadala has enshrined the population with his fruity creations. 
+      Any fruit that can be imagined can be made true. And now, humble citizen, we invite you to share your fruity dreams with us, so we may 
+      turn them into reality. If the public likes your idea enough, it may just be sold on Pagadala ™️ store shelves one day. 
+      Welcome to the fruitiest site on the wire: Sasanks Fruity Website.</h9>
+    </div>
+
+  <div class="image-container">
+    <a href="/login" target="_blank">
+      <img src="../static/images/man_holding_fruit.jpg" alt="Image">
+      <div class="overlay">
+        <div class = "content"> 
+          <h3>JOIN US NOW!</h3>
+        </div>
+      </div>
+    </a>
+  </div>
+</body>
+</html>
+{% endblock %}

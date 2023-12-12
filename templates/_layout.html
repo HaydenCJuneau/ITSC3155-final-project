@@ -15,12 +15,96 @@
 
   <title>{% block title %}{% endblock %}</title>
   <style>
+    .overlay{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(39, 36, 36, 0.5);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    h1 {
+        text-align: center;
+      }
+
+    a:hover .overlay {
+        opacity: 1;
+      }
+
+    .overlay p {
+        margin: 0;
+      }  
+
+    p {
+      text-align: center;
+    }
+      
     body {
+      margin: 0;
+      padding: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background-color: #f0f0f0;
       min-height: 100vh;
       min-height: -webkit-fill-available;
       font-family: 'Lilita One', sans-serif;
     }
 
+    .content-container {
+      display: flex;
+      align-items: center;
+      max-width: 600px; /* Set the maximum width of the content container */
+      margin: auto; /* Center the container horizontally */
+    }
+
+    .text-container {
+      flex: 1; /* Allow the text container to grow and shrink as needed */
+    }
+
+    .image-container {
+    position: relative; /* Add this line to make the overlay position relative to this container */
+    }
+
+    .image-container img {
+      max-width: 100%; /* Make the image responsive within its container */
+      height: auto; /* Maintain the aspect ratio */
+      margin-left: 20px; /* Add space between text and image */
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    .text-container-h{
+      border: 5px solid #b8cf47;
+          border-radius: 10px; /* Adjust the radius as needed */
+          padding: 10px;
+          margin-bottom: 10px;
+          background-color: #ffffff; /* Set the background color */
+          display: inline-block;
+          text-align: center;
+    }
+
+    .text-container-p{
+      border: 10px solid #b8cf47;
+          border-radius: 100px; /* Adjust the radius as needed */
+          padding: 10px;
+          margin-bottom: 10px;
+          background-color: #f0f0f0; /* Set the background color */
+          display: inline-block;
+          text-align: center;
+    }
+
+    
     html {
       height: -webkit-fill-available;
     }
@@ -63,7 +147,7 @@
       min-width: 250px;
       padding: 14px 14px 0;
       overflow: hidden;
-      background-color: rgba(255, 255, 255, 0.8);
+      background-color: rgba(241, 233, 199, 1.0);
       left: auto;
       right: 0;
       margin-right: 10px;
@@ -74,7 +158,7 @@
     }
 
     #login-dp .bottom {
-      background-color: rgba(255, 255, 255, 0.8);
+      background-color: rgba(241, 233, 199, 1.0);
       border-top: 1px solid #ddd;
       clear: both;
       padding: 14px;
@@ -142,7 +226,7 @@
     }
 
     .sidebar a:hover {
-      color: #007bff;
+      color: #dbd338;
       /* Adjust the color as needed */
     }
 
