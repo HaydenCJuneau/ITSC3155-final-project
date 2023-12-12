@@ -1,5 +1,5 @@
 from werkzeug.security import check_password_hash
-from src.models import db, Users
+from src.models import db, Users, Posts, Comments
 import re
 
 def create_user(username, email, password_hash):
@@ -59,3 +59,22 @@ def clear_db():
     db.session.remove()
     db.drop_all()
     db.create_all()
+
+def delete_posts(post_id):
+    post= db.session.query(Posts).get(post_id)
+
+    if post:
+        db.session.delete(post)
+        db.session.commit()
+        return True
+    return False
+
+def delete_comments(comment_id):
+    comment = db.session.query(Comments).get(comment_id)
+
+    if comment:
+       db.session.delete(comment)
+       db.session.commit()
+       return True
+    return False 
+
