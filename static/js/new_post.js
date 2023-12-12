@@ -65,7 +65,8 @@ function onSave() {
     })
     .then(data => {
         // todo: here we grab the id of the post
-        window.location.href = "/post/0";
+        const post_id = data.post_id;
+        window.location.href = `/post/${post_id}`;
     })
     .catch(error => {
         console.error('Error:', error);

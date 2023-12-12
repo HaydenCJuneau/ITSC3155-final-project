@@ -1,16 +1,46 @@
 # post_utils.py
 # This file stores helper methods for image generation and post editing
 import requests, os, base64
+from datetime import datetime
 from io import BytesIO
 from PIL import Image
-from random import randint
 from dotenv import load_dotenv
+from src.models import db, Posts, Users
 
 load_dotenv()
 TOKEN = os.getenv('API_KEY')
 API_URL = "https://api.getimg.ai/v1/stable-diffusion/controlnet"
 IMG_SIZE = 512
 
+# Post DB functions 
+def create_post(imageData: str, title: str, description: str, author) -> Posts|None:
+    try:
+        newPost = Posts(image=imageData.encode(), title=title, description=description, \
+            timestamp=datetime.utcnow(), status='ready', author_id=author)
+        db.session.add(newPost)
+        db.session.commit()
+        return newPost
+    except Exception as e:
+        print(f'A problem occurred saving post to db: {e}')
+        return None
+
+
+def get_all_posts():
+    try:
+        return Posts.query.all()
+    except Exception as e:
+        print(f'A problem occurred getting all posts from db: {e}')
+        return None
+
+
+def get_post_by_id(post_id):
+    try:
+        return Posts.query.get(post_id)
+    except Exception as e:
+        print(f'A problem occurred getting post from db: {e}')
+        return None
+
+# Image pipeline functions
 
 def check_balance():
     import requests
@@ -84,7 +114,6 @@ def encode_ctrl_image(img_path: str) -> str:
 
 
 def queue_image_generation(post_id: int, user_prompt: str, ctrl_image: str):
-    # TODO: We are assuming that ctrl_image will be a b64 str already inverted, but this may change
     payload = {
         "model": "icbinp-seco",
         "controlnet": "scribble-1.1",

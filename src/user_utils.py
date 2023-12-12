@@ -55,6 +55,7 @@ def check_user_credentials(email, password):
         return user
     return None
 
+# TODO: This should be moved to some other utils module
 def clear_db():
     db.session.remove()
     db.drop_all()
