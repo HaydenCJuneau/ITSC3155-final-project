@@ -10,7 +10,7 @@ from flask import render_template, request, flash, redirect, session
 def user_signup():
     if 'user_id' in session:
         flash('You are already logged in.')
-        return redirect('/')
+        return redirect('/users/profile')
     return render_template('signup.html')
 
 

@@ -1,0 +1,67 @@
+{% extends '_layout.html' %} 
+
+{% block title %} New Post {% endblock %}
+
+{% block body %}
+
+{% block extra_css %}
+<style>
+    canvas {        
+        display: block;
+        border: 5px solid black;
+        border: 5px solid black;
+        max-width: 512px; 
+    }
+
+    #canvasControls {
+        width: 16rem;
+    }
+
+    #ln_clr, #ln_thk {
+        width: 6rem;
+    }
+
+    #canvasControls > * {
+        margin: 0.25rem 0.5rem;
+    }
+</style>
+{% endblock %}
+
+<script src="../static/js/new_post.js"></script>
+
+<div class="d-flex flex-column justify-content-center">
+
+    <h1>Create the Fruit of Your Dreams!</h1>
+
+    <div id="canvasArea" class="d-flex flex-column align-content-center">
+        <canvas class="" id="c" width="512" height="512"></canvas>
+
+        <div id="canvasControls" class="d-flex flex-column justify-content-center">
+
+            <label for="ln_thk">Line Thickness:</label>
+            <input type="range" id="ln_thk" min="1" max="20" value="10">
+
+            <label class="form-check-label" for="eraseToggle">Erase</label>
+            <input class="form-check-input" type="checkbox" role="switch" id="eraseToggle">
+
+            <button id="ln_clr" class="btn btn-danger">CLEAR</button>
+        </div>
+    </div>
+
+    <div class="mt-2 form-group">
+        <label for="title">Title</label>
+        <textarea class="form-control" id="title" name="title" rows="2" placeholder="Enter title"></textarea>
+    </div>
+
+    <div class="mt-2 form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="5" placeholder="Enter description"></textarea>
+    </div>
+
+    <div class="mt-2 text-center">
+        <button type="button" class="btn btn-success" id="save">POST</button>
+        <a href="/" class="btn btn-danger">CANCEL</a>
+    </div>
+</div>
+
+{% endblock %}
