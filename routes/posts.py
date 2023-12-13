@@ -2,7 +2,7 @@
 # This file holds API routes for post functionality and nav
 from . import posts_bp
 import os
-from flask import render_template, redirect, request, session
+from flask import render_template, redirect, request, session, flash
 from src.post_utils import *
 
 TOKEN = os.getenv('API_KEY')
@@ -38,6 +38,10 @@ def generate_post():
 
 @posts_bp.get('/post/create')
 def new_post():
+    if 'user_id' not in session:
+        flash('You must be logged in to create a post')
+        return redirect('/users/signup')
+        
     return render_template('new_post.html')
 
 
@@ -50,3 +54,7 @@ def post_detail(post_id):
         return { "response": 200, "image": post.image.decode() } 
     else:
         return render_template('view_post.html', post_id=post_id)
+
+@posts_bp.route('/posts')
+def posts():
+    return render_template('posts.html')

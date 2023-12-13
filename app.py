@@ -31,8 +31,8 @@ db.init_app(app)
 # - - - Below are basic naviation routes - - -
 # Any specific API or nav routes that can be sectioned off into modules should be
 @app.get('/')
-def index():
-    return render_template('index.html')
+def home():
+    return render_template('home.html')
 
 
 @app.get('/search')
