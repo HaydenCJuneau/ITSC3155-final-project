@@ -50,3 +50,7 @@ def post_detail(post_id):
         return { "response": 200, "image": post.image.decode() } 
     else:
         return render_template('view_post.html', post_id=post_id)
+
+@posts_bp.route('/posts')
+def posts():
+    return render_template('posts.html')
