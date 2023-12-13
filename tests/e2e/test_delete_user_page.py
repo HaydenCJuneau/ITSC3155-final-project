@@ -1,4 +1,4 @@
-from src.backend import get_user_by_email, clear_db
+from src.user_utils import get_user_by_email, clear_db
 
 def test_delete_user_successful(test_app):
     clear_db()
