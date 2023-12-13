@@ -15,17 +15,17 @@ Profile Page
       {% endif %}
     {% endwith %}
   </div>
-  <h1>Profile Page</h1>
+  <h1>PROFILE PAGE</h1>
   <div class="profile-info">
-    <p><strong>Username:</strong> {{ user.username }}</p>
-    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>USERNAME:</strong> {{ user.username }}</p>
+    <p><strong>EMAIL:</strong> {{ user.email }}</p>
   </div>
-  <a href="/users/profile/edit" class="btn btn-primary">Edit Profile</a>
+  <a href="/users/profile/edit" class="btn btn-primary">EDIT PROFILE</a>
 
 
   <form action="/users/delete" method="post">
     <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this account? This action cannot be undone.');">
-      Delete Account
+      DELETE ACCOUNT
     </button>
   </form>
 </div>

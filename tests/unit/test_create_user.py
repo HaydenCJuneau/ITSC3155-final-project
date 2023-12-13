@@ -1,4 +1,4 @@
-from src.backend import create_user, clear_db
+from src.user_utils import create_user, clear_db
 
 def test_create_user(test_app):
     clear_db()
