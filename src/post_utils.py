@@ -152,7 +152,7 @@ def queue_image_generation(post_id: int, user_prompt: str, ctrl_image: str):
     # Decode and save the image
     json_response = response.json()
 
-    decode_image(json_response["image"], f'./uploads/output.jpg')
+    # decode_image(json_response["image"], f'./uploads/output.jpg')
     return json_response["image"]
 
 
