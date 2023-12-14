@@ -7,8 +7,8 @@ creators_dict = {
     'Hayden Juneau': {
         'description': '...',
         'image_src': '../static/images/hayden_headshot.jpg',
-        'linkedin_link': '#',
-        'github_link': '#'
+        'linkedin_link': 'https://www.linkedin.com/in/hayden-juneau-13b63b221/',
+        'github_link': 'https://github.com/HaydenCJuneau'
     },
     'Oliver Brito': {
         'description': '...',
@@ -30,9 +30,9 @@ creators_dict = {
     },
     'Yadhira Marcos': {
         'description': '...',
-        'image_src': '',
-        'linkedin_link': '#',
-        'github_link': '#'
+        'image_src': '../static/images/yadhira_headshot.jpg',
+        'linkedin_link': 'https://www.linkedin.com/in/yadhira-marcos/',
+        'github_link': 'https://github.com/yadhiraMAvila'
     },
     'Michael Gohn': {
         'description': '...',

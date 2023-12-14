@@ -31,7 +31,7 @@ Profile Page
       <h1>Your Posts</h1>
 
       <div class="posts">
-        {% for post in user.posts %}
+        {% for post in user.posts|sort(attribute='timestamp', reverse=true) %}
 
         <a href="/posts/{{ post.post_id }}" class="post-link">
           <div class="post border-secondary border border-1 p-2 m-2 d-flex justify-content-evenly align-items-start">
