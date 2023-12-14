@@ -2,7 +2,7 @@
 
 {% block title %} View Post {% endblock %}
 
-{% block body %}
+
 
 {% block extra_css %}
 <style>
@@ -20,13 +20,41 @@
         max-width: 512px;
         max-height: 512px;
     }
+
+    .comment-p {
+  text-align: left; 
+}
+
+.like-section {
+    padding-top: 20px;
+    display: flex;
+    align-items: center; /* This will vertically center align items if they have different heights */
+}
+
+.like-count {
+    margin-left: -20px; /* This adds space between the button and the text */
+}
+
+
 </style>
 {% endblock %}
 
+{% block body %}
+
+<!-- Flash Messages -->
+<div class="container mt-4">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-info">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
 
 <script>
-    // Make a GET request to "/post/0"
-    fetch('/post/{{post_id}}', {
+    // Make a GET request to "/posts/0"
+    fetch('/posts/{{post_id}}', {
         headers: {
             "Accept": "application/json"
         }
@@ -47,13 +75,65 @@
     });
 </script>
 
+{% if 'user_id' in session and post.author_id == session['user_id'] %}
+    <form action="/posts/delete/{{ post.post_id }}" method="post">
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this post?');">Delete Post</button>
+    </form>
+{% endif %}
 
 <div class="mt-5 d-flex flex-column justify-content-center">
     
-    <h1>View Post {{post_id}}</h1>
+    <h1>{{post.title}}</h1>
     <img id="myImage" class="mx-auto" alt="Fetched Image">
 
 </div>
 
+<!-- like/unlike button -->
+    <div class="like-section">
+        <button id="like-button-{{ post.post_id }}" class="btn btn-outline-primary" onclick="likePost('{{ post.post_id }}')">
+            {{ 'Unlike' if has_liked else 'Like' }}
+        </button>  
+        <span id="like-count-{{ post.post_id }}" class="like-count">Likes: {{ like_count }}</span>
+    </div>
 
+
+<!-- comments -->
+<h2>Comments:</h2>
+{% for comment in comments %}
+    <div class="comment">
+        <p class="comment-p">{{ comment.author.username }}: <span id="comment-content-{{ comment.comment_id }}">{{ comment.text }}</span></p>
+        {% if comment.author_id == session['user_id'] %}
+            <div class="comment-actions">
+                <button class="btn btn-primary" onclick="showEditForm('{{ comment.comment_id }}')">Edit</button>
+                <form method="post" action="/posts/{{ post.post_id }}/comments/{{ comment.comment_id }}/delete" class="d-inline">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+
+            <!-- hidden Edit Form  -->
+            <div id="edit-form-{{ comment.comment_id }}" style="display: none;">
+                <form method="post" action="/posts/{{ post.post_id }}/comments/{{ comment.comment_id }}/edit">
+                    <textarea name="text" required>{{ comment.text }}</textarea>
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="button" class="btn btn-secondary" onclick="hideEditForm('{{ comment.comment_id }}')">Cancel</button>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+{% endfor %}
+
+<!-- Comment form -->
+{% if 'user_id' in session %}
+<form method="post" action="/posts/{{ post.post_id }}/comment">
+    <textarea name="text" required></textarea>
+    <button type="submit" class="btn btn-primary">Post Comment</button>
+</form>
+{% else %}
+<p><a href="/users/login">Log in</a> to post a comment.</p>
+{% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/script.js"></script>
 {% endblock %}

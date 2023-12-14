@@ -4,6 +4,16 @@
 
 {% block body %}
 
+<div class="container mt-4">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-info">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
+
 {% block extra_css %}
 <style>
     canvas {        

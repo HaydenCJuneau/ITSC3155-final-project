@@ -1,4 +1,5 @@
 import os
+from src.user_utils import creators_dict
 from flask import Flask, render_template, request
 from src.models import db
 
@@ -48,7 +49,7 @@ def contact():
 
 @app.route('/about')
 def about():
-    return render_template('about.html')
+    return render_template('about.html', creators_dict = creators_dict)
 
 
 if __name__ == '__main__':
