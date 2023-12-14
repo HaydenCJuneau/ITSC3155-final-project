@@ -85,11 +85,17 @@ def delete_post(post_id):
 
 @posts_bp.route('/posts')
 def posts():
+    if 'search' in request.args:
+        print(f'Search: {request.args["search"]}')
+        query = search_post(request.args["search"])
+        return render_template('posts.html', posts = query)
+        
     return render_template('posts.html', posts = Posts.query.all())
 
 
 def is_logged_in():
     return 'user_id' in session
+
 
 # comment routes
 @posts_bp.post('/posts/<int:post_id>/comment')
