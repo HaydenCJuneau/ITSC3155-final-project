@@ -26,6 +26,7 @@
 }
 
 .like-section {
+    padding-top: 20px;
     display: flex;
     align-items: center; /* This will vertically center align items if they have different heights */
 }
@@ -74,10 +75,15 @@
     });
 </script>
 
+{% if 'user_id' in session and post.author_id == session['user_id'] %}
+    <form action="/posts/delete/{{ post.post_id }}" method="post">
+        <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this post?');">Delete Post</button>
+    </form>
+{% endif %}
 
 <div class="mt-5 d-flex flex-column justify-content-center">
     
-    <h1>View Post {{post_id}}</h1>
+    <h1>{{post.title}}</h1>
     <img id="myImage" class="mx-auto" alt="Fetched Image">
 
 </div>

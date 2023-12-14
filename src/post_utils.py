@@ -147,6 +147,22 @@ def queue_image_generation(post_id: int, user_prompt: str, ctrl_image: str):
     return json_response["image"]
 
 
+def delete_post_by_id(post_id, user_id):
+    post = Posts.query.get(post_id)
+    if post is None:
+        return 'Post not found.'
+
+    if post.author_id != user_id:
+        return 'You can only delete your own posts.'
+    
+    Likes.query.filter_by(post_id=post_id).delete()
+    Comments.query.filter_by(post_id=post_id).delete()
+
+    db.session.delete(post)
+    db.session.commit()
+    return 'Post deleted successfully.'
+
+
 
 def clear_db():
     db.session.remove()
