@@ -38,6 +38,10 @@
         opacity: 1;
       }
 
+    .overlay .content {
+      text-align: center;
+      }
+
     .overlay p {
         margin: 0;
       }  
@@ -75,9 +79,10 @@
     }
 
     .image-container img {
-      max-width: 100%; /* Make the image responsive within its container */
-      height: auto; /* Maintain the aspect ratio */
-      margin-left: 20px; /* Add space between text and image */
+      display: block;
+      margin: 0 auto;
+      max-width: 100%;
+      height: auto;
     }
 
     .container {
@@ -241,7 +246,7 @@
   <!-- navbar -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/" id="menu">SASANK'S FRUITY WEBSITE</a>
+      <a class="navbar-brand" href="/" id="menu">SASANK'S FRUITY WEBSITE <img src="../static/images/Orange_Navbar.png" alt="Image"></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -326,10 +331,10 @@
                 <i class="fs-4"></i> <span class="ms-1 d-none d-sm-inline">HOME</span>
               </a>
               <a href="/posts" class="nav-link align-middle px-0">
-                <i class="fs-4"></i> <spanclass="ms-1 d-none d-sm-inline">POSTS</span>
+                <i class="fs-4"></i> <span class="ms-1 d-none d-sm-inline">POSTS</span>
               </a>
               <a href="/post/create"class = "nav-link align-middle px-0">
-                <i class="fs-4"></i> <span class="ms-1 d-none d-sm-inline">New Post</span>
+                <i class="fs-4"></i> <span class="ms-1 d-none d-sm-inline">NEW POST</span>
               </a>
             </li> 
             <li class="nav-item">
