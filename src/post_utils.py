@@ -5,7 +5,7 @@ from datetime import datetime
 from io import BytesIO
 from PIL import Image
 from dotenv import load_dotenv
-from src.models import db, Posts, Users
+from src.models import db, Posts, Users, Comments, Likes
 
 load_dotenv()
 TOKEN = os.getenv('API_KEY')
@@ -145,3 +145,65 @@ def queue_image_generation(post_id: int, user_prompt: str, ctrl_image: str):
 
     decode_image(json_response["image"], f'./uploads/output.jpg')
     return json_response["image"]
+
+
+
+def clear_db():
+    db.session.remove()
+    db.drop_all()
+    db.create_all()
+
+
+def create_comment(post_id, user_id, text):
+    new_comment = Comments(post_id=post_id, author_id=user_id, text=text)
+    db.session.add(new_comment)
+    db.session.commit()
+    return new_comment
+
+def get_comment_by_id(comment_id):
+    return Comments.query.get(comment_id)
+
+def update_comment(comment_id, new_text):
+    comment = get_comment_by_id(comment_id)
+    if comment:
+        comment.text = new_text
+        db.session.commit()
+        return True
+    return False
+
+def delete_comment(comment_id):
+    comment = get_comment_by_id(comment_id)
+    if comment:
+        db.session.delete(comment)
+        db.session.commit()
+        return True
+    return False
+
+def get_comments_for_post(post_id):
+    try:
+        return Comments.query.filter_by(post_id=post_id).all()
+    except Exception as e:
+        print(f'Error getting comments for post {post_id}: {e}')
+        return []
+    
+def like_post(user_id, post_id):
+    existing_like = Likes.query.filter_by(user_id=user_id, post_id=post_id).first()
+    if existing_like:
+        db.session.delete(existing_like)
+        db.session.commit()
+        return 'unliked'
+    else:
+        new_like = Likes(user_id=user_id, post_id=post_id)
+        db.session.add(new_like)
+        db.session.commit()
+        return 'liked'
+    
+def check_user_like(user_id, post_id) -> bool:
+    try:
+        return Likes.query.filter_by(user_id=user_id, post_id=post_id).first() is not None
+    except Exception as e:
+        print(f'Error checking user like: {e}')
+        return False
+
+def get_like_count(post_id):
+    return Likes.query.filter_by(post_id=post_id).count()
