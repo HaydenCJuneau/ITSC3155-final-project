@@ -22,7 +22,7 @@ def generate_post():
     print(data)
  
     data['image'] = invert_ctrl_image(data['image'])
-    decode_image(data["image"], f'./uploads/input.jpg') 
+    # decode_image(data["image"], f'./uploads/input.jpg') 
     
     # TODO: Create a post in the DB, flagged as pending
     if 'user_id' not in session:
