@@ -2,6 +2,7 @@
 # This file holds API routes for post functionality and nav
 from . import posts_bp
 import os
+from src.models import Posts
 from flask import jsonify, render_template, redirect, request, session, flash
 from src.post_utils import *
 
@@ -84,11 +85,17 @@ def delete_post(post_id):
 
 @posts_bp.route('/posts')
 def posts():
-    return render_template('posts.html')
+    if 'search' in request.args:
+        print(f'Search: {request.args["search"]}')
+        query = search_post(request.args["search"])
+        return render_template('posts.html', posts = query)
+        
+    return render_template('posts.html', posts = Posts.query.all())
 
 
 def is_logged_in():
     return 'user_id' in session
+
 
 # comment routes
 @posts_bp.post('/posts/<int:post_id>/comment')

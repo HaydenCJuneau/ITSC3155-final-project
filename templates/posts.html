@@ -1,7 +1,20 @@
 {% extends '_layout.html' %}
 
-{% block title %}
+{% block title %} 
 
+All Posts 
+
+{% endblock %}
+
+{% block extra_css %}
+<style>
+  .post-link {
+    text-decoration: none; 
+    color: inherit;
+    cursor: pointer;
+    transition: text-shadow ease;
+  }
+</style>
 {% endblock %}
 
 {% block body %}
@@ -16,18 +29,58 @@
     {% endwith %}
   </div>
 
-
   <body>
     <div class="container">
-      <div class="text-container-h">
-        <div class="content-container">
-          <div class="text-container">
-            <h1>THE HOTTEST & SWEETEST POSTS!</h1>
-          </div>
+      <div class="posts-list col-md-9">
+        <h1>TOP FRUITS!</h1>
+  
+        <div class="posts">
+          {% for post in posts|sort(attribute = 'timestamp',reverse=true)%}
+  
+          <a href="/posts/{{ post.post_id }}" class="post-link">
+            <div class="post border-secondary border border-1 p-2 m-2 d-flex justify-content-evenly align-items-start">
+              <div class="img-box mt-3 mb-3">
+                <script>
+                  fetch('/posts/{{ post.post_id }}', {
+                      headers: {
+                          "Accept": "application/json"
+                      }
+                  })
+                  .then(response => {
+                      if (!response.ok) 
+                          throw new Error('Network response was not ok');
+              
+                      return response.json();
+                  })
+                  .then(data => {
+                      const b64Img = data.image;
+                      const imgElement = document.getElementById('myImage_{{ post.post_id }}');
+                      imgElement.src = `data:image/jpeg;base64,${b64Img}`;
+                  })
+                  .catch(error => {
+                      console.error('There was a problem with the fetch operation:', error);
+                  });
+                </script>
+                <img id="myImage_{{ post.post_id }}" alt="post picture" height="100" width="100">
+              </div>
+              <div class="text-content col-md-6">
+                <h4>TITLE: {{ post.title }}</h4>
+                <p>DESCRIPTION: {{ post.description[:150] }}{{ '...' if post.description|length > 100 else '' }}</p>
+              </div>
+              <div class="post-data col-md-3 d-flex flex-column mt-2">
+                <small class="m-2">LIKES: {{ post.likes|length }}</small>
+                <small class="m-2">DATE POSTED: {{ post.timestamp.strftime('%m-%d-%Y') }}</small>
+                <small class="m-2">AUTHOR: {{ post.author.username }}</small>
+              </div>
+            </div>
+          </a>
+  
+          {% endfor %}
         </div>
       </div>
     </div>
-  <p>TOP FRUITS</p>
- 
+
 </div>
 {% endblock %}
+
+<h1>THE HOTTEST & SWEETEST POSTS!</h1>
