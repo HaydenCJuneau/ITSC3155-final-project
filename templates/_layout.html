@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     integrity="sha512-KyZXEAg3QhqLMpMIg9d6ZwevFf/wnOqtZx1dEVkgkq1Gzcl2i6HqyW1ExM5w5fI1Px2AgihZOdRtjpt46iC/YQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
-  {% block extra_css %}{% endblock %}
 
   <title>{% block title %}{% endblock %}</title>
   <style>
@@ -234,7 +233,13 @@
       margin-left: 250px;
       padding: 16px;
     }
+
+    .post-link:hover {
+      color: inherit;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
   </style>
+  {% block extra_css %}{% endblock %}
 </head>
 
 <body>
@@ -326,10 +331,17 @@
                 <i class="fs-4"></i> <span class="ms-1 d-none d-sm-inline">HOME</span>
               </a>
               <a href="/posts" class="nav-link align-middle px-0">
+<<<<<<< HEAD
                 <i class="fs-4"></i> <spanclass="ms-1 d-none d-sm-inline">POSTS</span>
               </a>
               <a href="/post/create"class = "nav-link align-middle px-0">
                 <i class="fs-4"></i> <span class="ms-1 d-none d-sm-inline">New Post</span>
+=======
+                <i class="fs-4"></i> <span href="/" class="ms-1 d-none d-sm-inline">POSTS</span>
+              </a>
+              <a href="/create_post" class="nav-link align-middle px-0">
+                <i class="fs-4"></i> <span href="/" class="ms-1 d-none d-sm-inline">CREATE POSTS</span>
+>>>>>>> profile-posts
               </a>
             </li> 
             <li class="nav-item">
@@ -352,7 +364,7 @@
               <hr>
             </li>
             <li class="nav-item">
-              <a href="about" class="nav-link align-middle px-0 ">
+              <a href="/about" class="nav-link align-middle px-0 ">
                 <i class="fs-4"></i> <span class="ms-1 d-none d-sm-inline">ABOUT</span></a>
             </li>
           </ul>

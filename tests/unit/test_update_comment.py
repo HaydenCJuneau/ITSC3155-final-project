@@ -1,12 +1,12 @@
+<<<<<<< HEAD
 from src.user_utils import create_user, clear_db
+=======
+from src.backend import create_user, clear_db, generate_dummy_binary, save_item_to_db
+>>>>>>> profile-posts
 from src.models import db, Posts, Users, Comments
 # May want to delete these imports after refining. This test is in a temporary state
 from datetime import datetime
-import os
-from random import random
 
-def generate_dummy_binary(size):
-    return os.urandom(size)
 
 def create_post(user):
     binary_data_size = 272 * 1024
@@ -17,10 +17,6 @@ def create_post(user):
 def create_comment(user, post):
     test_comment = Comments(text='test_text', post_id=post.post_id, author_id=user.user_id)
     return test_comment
-
-def save_item_to_db(item):
-    db.session.add(item)
-    db.session.commit()
 
 def test_update_comment(test_app):
     clear_db()

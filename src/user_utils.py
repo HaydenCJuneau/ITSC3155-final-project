@@ -1,6 +1,46 @@
 from werkzeug.security import check_password_hash
 from src.models import db, Users
 import re
+import os
+
+creators_dict = {
+    'Hayden Juneau': {
+        'description': '...',
+        'image_src': '../static/images/hayden_headshot.jpg',
+        'linkedin_link': '#',
+        'github_link': '#'
+    },
+    'Oliver Brito': {
+        'description': '...',
+        'image_src': '',
+        'linkedin_link': '#',
+        'github_link': '#'
+    },
+    'Sasank Pagadala': {
+        'description': '...',
+        'image_src': '',
+        'linkedin_link': '#',
+        'github_link': '#'
+    },
+    'Safa Rasheed': {
+        'description': '...',
+        'image_src': '',
+        'linkedin_link': '#',
+        'github_link': '#'
+    },
+    'Yadhira Marcos': {
+        'description': '...',
+        'image_src': '',
+        'linkedin_link': '#',
+        'github_link': '#'
+    },
+    'Michael Gohn': {
+        'description': '...',
+        'image_src': '../static/images/michael_headshot.JPG',
+        'linkedin_link': 'https://www.linkedin.com/in/michael-gohn-8a8963236/',
+        'github_link': 'https://github.com/dashboard'
+    },
+}
 
 def create_user(username, email, password_hash):
     if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
@@ -60,3 +100,11 @@ def clear_db():
     db.session.remove()
     db.drop_all()
     db.create_all()
+
+def generate_dummy_binary(size):
+    return os.urandom(size)
+
+def save_item_to_db(item):
+    db.session.add(item)
+    db.session.commit()
+    return None # DO NOT delete! Tests unexpectedly error without it!
