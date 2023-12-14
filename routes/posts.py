@@ -2,6 +2,7 @@
 # This file holds API routes for post functionality and nav
 from . import posts_bp
 import os
+from src.models import Posts
 from flask import jsonify, render_template, redirect, request, session, flash
 from src.post_utils import *
 
@@ -84,7 +85,7 @@ def delete_post(post_id):
 
 @posts_bp.route('/posts')
 def posts():
-    return render_template('posts.html')
+    return render_template('posts.html', posts = Posts.query.all())
 
 
 def is_logged_in():
