@@ -65,6 +65,22 @@ def post_detail(post_id):
         return render_template('view_post.html', post=post, comments=comments, has_liked=has_liked, like_count=like_count, post_id=post_id)
 
 
+@posts_bp.post('/posts/delete/<int:post_id>')
+def delete_post(post_id):
+    if not is_logged_in():
+        flash('You must be logged in to delete posts.')
+        return redirect('/users/login')
+
+    result = delete_post_by_id(post_id, session['user_id'])
+
+    flash(result)
+
+    if result == 'Post deleted successfully.':
+        return redirect('/')
+    else:
+        return redirect(f'/posts/{post_id}')
+
+
 @posts_bp.route('/posts/browse')
 def posts():
     return render_template('posts.html')
