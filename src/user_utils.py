@@ -12,21 +12,21 @@ creators_dict = {
     },
     'Oliver Brito': {
         'description': '...',
-        'image_src': '',
-        'linkedin_link': '#',
-        'github_link': '#'
+        'image_src': '../static/images/oliver_headshot.jpg',
+        'linkedin_link': 'https://www.linkedin.com/in/oliver-brito-12095494/',
+        'github_link': 'https://github.com/obrito00'
     },
     'Sasank Pagadala': {
         'description': '...',
-        'image_src': '',
-        'linkedin_link': '#',
-        'github_link': '#'
+        'image_src': '../static/images/sasank_headshot.jpg',
+        'linkedin_link': 'https://www.linkedin.com/in/sasank-pagadala/',
+        'github_link': 'https://github.com/SasankPagdala'
     },
     'Safa Rasheed': {
         'description': '...',
-        'image_src': '',
-        'linkedin_link': '#',
-        'github_link': '#'
+        'image_src': '../static/images/safa_headshot.jpg',
+        'linkedin_link': 'https://www.linkedin.com/in/safa-rasheed-8ab95b1b8/',
+        'github_link': 'https://github.com/itssimplysafaa'
     },
     'Yadhira Marcos': {
         'description': '...',
