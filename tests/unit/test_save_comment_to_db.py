@@ -2,15 +2,6 @@ from src.user_utils import create_user, clear_db
 from src.models import db, Posts, Users, Comments
 # May want to delete these imports after refining. This test is in a temporary state
 from datetime import datetime
-import os
-from random import random
-
-def generate_dummy_binary(size):
-    return os.urandom(size)
-
-def save_comment_to_db(comment):
-    db.session.add(comment)
-    db.session.commit()
 
 def test_save_comment(test_app):
     clear_db()
@@ -28,7 +19,7 @@ def test_save_comment(test_app):
 
     # Create test comment and save to db
     test_comment = Comments(text='test_text', post_id=test_post.post_id, author_id=test_user.user_id)
-    save_comment_to_db(test_comment)
+    save_item_to_db(test_comment)
 
     # Assert test post is in the db
     assert db.session.query(Comments).get(test_comment.comment_id).text == 'test_text'
