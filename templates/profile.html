@@ -83,49 +83,56 @@ Profile Page
         <p><strong>Email:</strong> {{ user.email }}</p>
       </div>
 
-      <div class="popular-post">
+      <div class="btns-section">
+        <!--
         <div class="popular-post border-top border-2 d-flex flex-column align-items-center border-bottom mt-5 pb-3 pt-5 border-secondary">
           {% if user.posts %}
-              {% set most_liked_post = user.posts[0] %}
-              {% for post in user.posts %}
-                  {% if post.likes|length > most_liked_post.likes|length %}
-                      {% set most_liked_post = post %}
-                  {% endif %}
-              {% endfor %}
-              <a href="/posts/{{ most_liked_post.post_id }}" class="post-link d-flex flex-column align-items-center">
-                <h3>Most Popular Post</h3>
-                <h2>{{ most_liked_post.title }}</h2>
-                <img id="most_liked_post_pic" alt="picture of most popular post" height="125" width="125">
-                <small>Likes: {{ most_liked_post.likes|length }}</small>
-              </a>
-              <script>
-                fetch('/posts/{{ most_liked_post.post_id }}', {
-                    headers: {
-                        "Accept": "application/json"
-                    }
-                })
-                .then(response => {
-                    if (!response.ok) 
-                        throw new Error('Network response was not ok');
-            
-                    return response.json();
-                })
-                .then(data => {
-                    const b64Img = data.image;
-                    const imgElement = document.getElementById('most_liked_post_pic');
-                    imgElement.src = `data:image/jpeg;base64,${b64Img}`;
-                })
-                .catch(error => {
-                    console.error('There was a problem with the fetch operation:', error);
-                });
-              </script>
+            {% set most_liked_post = user.posts[0] %}
+            {# it ran the initial set #}
+            {% for post in user.posts %}
+              {# 1 #}
+              {% if post.likes|length > most_liked_post.likes|length %}
+                {{ 'post: {} most: {}'.format(post.likes|length, most_liked_post.likes|length) }}
+                {{ 'post: {} most: {}'.format(post.title, most_liked_post.title) }}
+                {% set most_liked_post = post %}
+                {{ 'post: {} most: {}'.format(post.likes|length, most_liked_post.likes|length) }}
+                {{ 'post: {} most: {}'.format(post.title, most_liked_post.title) }}
+              {% endif %}
+            {% endfor %}
+            <a href="/posts/{{ most_liked_post.post_id }}" class="post-link d-flex flex-column align-items-center">
+              <h3>Most Popular Post</h3>
+              <h2>{{ most_liked_post.title }}</h2>
+              <img id="most_liked_post_pic" alt="picture of most popular post" height="125" width="125">
+              <small>Likes: {{ most_liked_post.likes|length }}</small>
+            </a>
+            <script>
+              fetch('/posts/{{ most_liked_post.post_id }}', {
+                  headers: {
+                      "Accept": "application/json"
+                  }
+              })
+              .then(response => {
+                  if (!response.ok) 
+                      throw new Error('Network response was not ok');
+          
+                  return response.json();
+              })
+              .then(data => {
+                  const b64Img = data.image;
+                  const imgElement = document.getElementById('most_liked_post_pic');
+                  imgElement.src = `data:image/jpeg;base64,${b64Img}`;
+              })
+              .catch(error => {
+                  console.error('There was a problem with the fetch operation:', error);
+              });
+            </script>
           {% else %}
             <h3>Most Popular Post</h3>
             <h2>No posts available!</h2>
           {% endif %}
-        </div>        
+        </div>
         
-        <!--
+        
         <div class="popular-comment mt-5 pt-5 border-top border-secondary border-2">
           <h3>Most Popular Comment</h3>
           <p>Filler comment for now</p>

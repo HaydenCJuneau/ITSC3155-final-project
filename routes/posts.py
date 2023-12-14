@@ -65,7 +65,7 @@ def post_detail(post_id):
         return render_template('view_post.html', post=post, comments=comments, has_liked=has_liked, like_count=like_count, post_id=post_id)
 
 
-@posts_bp.route('/posts/browse')
+@posts_bp.route('/posts')
 def posts():
     return render_template('posts.html')
 
