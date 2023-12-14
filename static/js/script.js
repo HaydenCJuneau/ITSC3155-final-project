@@ -19,7 +19,7 @@ function hideEditProfileForm() {
 }
 
 function likePost(postId) {
-    fetch(`/post/${postId}/like`, { method: 'POST' })
+    fetch(`/posts/${postId}/like`, { method: 'POST' })
     .then(response => response.json())
     .then(data => {
         if (data.status === "error") {
