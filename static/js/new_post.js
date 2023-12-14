@@ -50,7 +50,7 @@ function onSave() {
     }
 
     // Make the POST request using the Fetch API
-    fetch('/post/generate', {
+    fetch('/posts/generate', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -66,7 +66,7 @@ function onSave() {
     .then(data => {
         // todo: here we grab the id of the post
         const post_id = data.post_id;
-        window.location.href = `/post/${post_id}`;
+        window.location.href = `/posts/${post_id}`;
     })
     .catch(error => {
         console.error('Error:', error);
