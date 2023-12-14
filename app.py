@@ -46,7 +46,7 @@ def search():
 def contact():
     return render_template('contact.html')
 
-
+#Updated render template
 @app.route('/about')
 def about():
     return render_template('about.html', creators_dict = creators_dict)
