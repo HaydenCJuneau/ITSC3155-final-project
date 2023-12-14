@@ -7,32 +7,32 @@ creators_dict = {
     'Hayden Juneau': {
         'description': '...',
         'image_src': '../static/images/hayden_headshot.jpg',
-        'linkedin_link': '#',
-        'github_link': '#'
+        'linkedin_link': 'https://www.linkedin.com/in/hayden-juneau-13b63b221/',
+        'github_link': 'https://github.com/HaydenCJuneau'
     },
     'Oliver Brito': {
         'description': '...',
-        'image_src': '',
-        'linkedin_link': '#',
-        'github_link': '#'
+        'image_src': '../static/images/oliver_headshot.jpg',
+        'linkedin_link': 'https://www.linkedin.com/in/oliver-brito-12095494/',
+        'github_link': 'https://github.com/obrito00'
     },
     'Sasank Pagadala': {
         'description': '...',
-        'image_src': '',
-        'linkedin_link': '#',
-        'github_link': '#'
+        'image_src': '../static/images/sasank_headshot.jpg',
+        'linkedin_link': 'https://www.linkedin.com/in/sasank-pagadala/',
+        'github_link': 'https://github.com/SasankPagdala'
     },
     'Safa Rasheed': {
         'description': '...',
-        'image_src': '',
-        'linkedin_link': '#',
-        'github_link': '#'
+        'image_src': '../static/images/safa_headshot.jpg',
+        'linkedin_link': 'https://www.linkedin.com/in/safa-rasheed-8ab95b1b8/',
+        'github_link': 'https://github.com/itssimplysafaa'
     },
     'Yadhira Marcos': {
         'description': '...',
-        'image_src': '',
-        'linkedin_link': '#',
-        'github_link': '#'
+        'image_src': '../static/images/yadhira_headshot.jpg',
+        'linkedin_link': 'https://www.linkedin.com/in/yadhira-marcos/',
+        'github_link': 'https://github.com/yadhiraMAvila'
     },
     'Michael Gohn': {
         'description': '...',
